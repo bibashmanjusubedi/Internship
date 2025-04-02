@@ -6,10 +6,12 @@ namespace Internship.Models
     public class Asset
     {
         public int AssetId { get; set; }
-        [StringLength[100]
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
 
         [Required]
+        [StringLength(50)]
         public string ShortName {  get; set; }
 
         [StringLength(255)]

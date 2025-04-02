@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
 namespace Internship.Models
@@ -15,5 +16,8 @@ namespace Internship.Models
 
         [StringLength(255)]
         public string Remark { get; set}
+        [StringLength(255)]
+        public string Status { get; set; }
+
     }
 }

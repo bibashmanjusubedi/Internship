@@ -14,6 +14,13 @@ namespace Internship.Models
         public string Phone { get; set; }
         public int LoginID { get; set; }
         [StringLength(100)]
+
+        public bool LoginStatus { get; set; } = false;
         public string Password { get; set; }
+
+
+
+        [StringLength(100)]
+        public string Remarks { get; set; }
     }
 }

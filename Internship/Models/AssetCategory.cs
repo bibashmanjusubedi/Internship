@@ -6,6 +6,7 @@ namespace Internship.Models
     {
         public int CatId { get; set; }
 
+        [Required]
         [StringLength(100)]
         public string CatName { get; set; }
     }
