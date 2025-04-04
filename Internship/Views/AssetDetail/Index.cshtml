@@ -4,6 +4,10 @@
 }
 
 <h2>Asset List</h2>
+<p>
+	<a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>
@@ -28,11 +32,11 @@
 				<td>@asset.PurchaseDate</td>
 				<td>@asset.Remark</td>
 				<td>@asset.Status</td>
-				@* <td> *@
-				@* 	<a asp-action="Edit" asp-route-id="@asset.Sn" class="btn btn-warning">Edit</a> *@
-				@* 	<a asp-action="Details" asp-route-id="@asset.Sn" class="btn btn-info">Details</a> *@
-				@* 	<a asp-action="Delete" asp-route-id="@asset.Sn" class="btn btn-danger">Delete</a> *@
-				@* </td> *@
+				<td>
+					<a asp-action="Edit" asp-route-id="@asset.Sn" class="btn btn-warning">Edit</a>
+					<a asp-action="Details" asp-route-id="@asset.Sn" class="btn btn-info">Details</a>
+					<a asp-action="Delete" asp-route-id="@asset.Sn" class="btn btn-danger">Delete</a>
+				</td>
 			</tr>
 			
 		}
