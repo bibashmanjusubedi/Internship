@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Internship.Models.AssetDetail>
+@{
+	ViewData["Title"] = "Asset List";
+}
+
+<h2>Asset List</h2>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>SN</th>
+			<th>AssetId</th>
+			<th>AssetCode</th>
+			<th>Price</th>
+			<th>PurchaseDate</th>
+			<th>Status</th>
+			<th>Remarks</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var asset in Model)
+		{
+			<tr>
+				<td>@asset.Sn</td>
+				<td>@asset.AssetId</td>
+				<td>@asset.AssetCode</td>
+				<td>@asset.Price</td>
+				<td>@asset.PurchaseDate</td>
+				<td>@asset.Remark</td>
+				<td>@asset.Status</td>
+				@* <td> *@
+				@* 	<a asp-action="Edit" asp-route-id="@asset.Sn" class="btn btn-warning">Edit</a> *@
+				@* 	<a asp-action="Details" asp-route-id="@asset.Sn" class="btn btn-info">Details</a> *@
+				@* 	<a asp-action="Delete" asp-route-id="@asset.Sn" class="btn btn-danger">Delete</a> *@
+				@* </td> *@
+			</tr>
+			
+		}
+	</tbody>
+</table>
+
+
+@* <a asp-action="Create" class="btn btn-primary">Add New Asset</a> *@

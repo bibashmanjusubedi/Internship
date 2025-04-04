@@ -15,7 +15,7 @@ namespace Internship.Models
         public DateOnly PurchaseDate { get; set; }
 
         [StringLength(255)]
-        public string Remark { get; set}
+        public string Remark { get; set; }
         [StringLength(255)]
         public string Status { get; set; }
 
