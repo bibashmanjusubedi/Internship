@@ -25,5 +25,26 @@ namespace Internship.Controllers
         }
 
         // Other actions like Create, Edit, Delete can be added here
+
+        // GET: AssetDetail/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: AssetDetail/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(AssetDetail assetDetail)
+        {
+            if (ModelState.IsValid)
+            {
+                _assetDetailRepository.CreateAssetDetail(assetDetail);
+                return RedirectToAction(nameof(Index)); // Redirect to the list after creation
+            }
+
+            return View(assetDetail); // Return to the form with validation errors if any
+        }
+
     }
 }

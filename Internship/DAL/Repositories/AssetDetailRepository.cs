@@ -37,5 +37,32 @@ namespace Internship.DAL.Repositories
         }
 
         // Other CRUD methods like Create, Update, Delete
+
+
+        // Create Operation: Insert a new AssetDetail
+        public void CreateAssetDetail(AssetDetail assetDetail)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                // SQL insert query to add a new record to the AssetDetail table
+                string query = @"INSERT INTO AssetDetail (Sn, AssetId, AssetCode, Price, PurchaseDate, Remark, Status)
+                                 VALUES (@AssetId, @AssetCode, @Price, @PurchaseDate, @Remark, @Status)";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                // Add parameters to the SQL command to prevent SQL injection
+                command.Parameters.AddWithValue("@Sn", assetDetail.Sn);
+                command.Parameters.AddWithValue("@AssetId", assetDetail.AssetId);
+                command.Parameters.AddWithValue("@AssetCode", assetDetail.AssetCode);
+                command.Parameters.AddWithValue("@Price", assetDetail.Price);
+                command.Parameters.AddWithValue("@PurchaseDate", assetDetail.PurchaseDate);
+                command.Parameters.AddWithValue("@Remark", assetDetail.Remark ?? (object)DBNull.Value); // Handle null for Remark
+                command.Parameters.AddWithValue("@Status", assetDetail.Status ?? (object)DBNull.Value); // Handle null for Status
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
     }
 }
