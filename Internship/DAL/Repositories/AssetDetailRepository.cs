@@ -30,8 +30,11 @@ namespace Internship.DAL.Repositories
                         Remark = reader["Remark"]?.ToString(), // Handle string fields
                         Status = reader["Status"]?.ToString() // Handle string fields
                     };
+
+                    assetDetails.Add(assetDetail);
                 }
             }
+            
 
             return assetDetails;
         }
@@ -46,7 +49,7 @@ namespace Internship.DAL.Repositories
             {
                 // SQL insert query to add a new record to the AssetDetail table
                 string query = @"INSERT INTO AssetDetail (Sn, AssetId, AssetCode, Price, PurchaseDate, Remark, Status)
-                                 VALUES (@AssetId, @AssetCode, @Price, @PurchaseDate, @Remark, @Status)";
+                                 VALUES (@Sn,@AssetId, @AssetCode, @Price, @PurchaseDate, @Remark, @Status)";
 
                 SqlCommand command = new SqlCommand(query, connection);
 

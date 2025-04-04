@@ -5,6 +5,7 @@ namespace Internship.Models
 {
     public class Asset
     {
+        [Key]
         public int AssetId { get; set; }
         [Required]
         [StringLength(100)]
