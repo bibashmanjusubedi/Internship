@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<Internship.Models.AssetDetail>
 @{
-	ViewData["Title"] = "Asset List";
+	ViewData["Title"] = "Asset Detail List";
 }
 
-<h2>Asset List</h2>
+<h2>Asset Detail List</h2>
 
 <table class="table table-bordered table-striped">
 	<thead>
@@ -19,20 +19,20 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var asset in Model)
+		@foreach (var assetDetail in Model)
 		{
 			<tr>
-				<td>@asset.Sn</td>
-				<td>@asset.AssetId</td>
-				<td>@asset.AssetCode</td>
-				<td>@asset.Price</td>
-				<td>@asset.PurchaseDate</td>
-				<td>@asset.Remark</td>
-				<td>@asset.Status</td>
+				<td>@assetDetail.Sn</td>
+				<td>@assetDetail.AssetId</td>
+				<td>@assetDetail.AssetCode</td>
+				<td>@assetDetail.Price</td>
+				<td>@assetDetail.PurchaseDate</td>
+				<td>@assetDetail.Remark</td>
+				<td>@assetDetail.Status</td>
 				<td>
-					<a asp-action="Edit" asp-route-id="@asset.Sn" class="btn btn-warning">Edit</a>
-					<a asp-action="Details" asp-route-id="@asset.Sn" class="btn btn-info">Details</a>
-					<a asp-action="Delete" asp-route-id="@asset.Sn" class="btn btn-danger">Delete</a>
+					<a asp-action="Edit" asp-route-id="@assetDetail.Sn" class="btn btn-warning">Edit</a>
+					<a asp-action="Details" asp-route-id="@assetDetail.Sn" class="btn btn-info">Details</a>
+					<a asp-action="Delete" asp-route-id="@assetDetail.Sn" class="btn btn-danger">Delete</a>
 				</td>
 			</tr>
 			
@@ -41,4 +41,4 @@
 </table>
 
 
-<a asp-action="Create" class="btn btn-primary">Add New Asset</a>
+<a asp-action="Create" class="btn btn-primary">Add New Asset Detail</a>

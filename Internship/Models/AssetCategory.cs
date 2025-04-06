@@ -4,7 +4,7 @@ namespace Internship.Models
 {
     public class AssetCategory
     {
-        public int CatId { get; set; }
+        public int CatID { get; set; }
 
         [Required]
         [StringLength(100)]
