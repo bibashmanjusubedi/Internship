@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Internship.Models.Asset
+
 @{
+    ViewData["Title"] = "Create New Asset";
 }
+
+<h2>Create New Asset</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="AssetId" class="control-label"></label>
+        <input asp-for="AssetId" class="form-control" />
+        <span asp-validation-for="AssetId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ShortName" class="control-label"></label>
+        <input asp-for="ShortName" class="form-control" />
+        <span asp-validation-for="ShortName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" type="date" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Unit" class="control-label"></label>
+        <textarea asp-for="Unit" class="form-control"></textarea>
+        <span asp-validation-for="Unit" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CatID" class="control-label"></label>
+        <input asp-for="CatID" class="form-control" />
+        <span asp-validation-for="CatID" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Asset</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to Asset List</a>
+</form>
+

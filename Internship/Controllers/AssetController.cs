@@ -28,6 +28,20 @@ namespace Internship.Controllers
             return View();
         }
 
+        // POST: Asset/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Asset asset)
+        {
+            if (ModelState.IsValid)
+            {
+                _assetRepository.CreateAsset(asset);
+                return RedirectToAction(nameof(Index)); // Redirect to the list after creation
+            }
+
+            return View(asset); // Return to the form with validation errors if any
+        }
+
 
     }
 }
