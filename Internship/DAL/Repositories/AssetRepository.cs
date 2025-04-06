@@ -14,9 +14,9 @@ namespace Internship.DAL.Repositories
             using (var connection = DatabaseHelper.GetConnection())
             {
                 string query = "SELECT * FROM Asset";
-                SqlCommand = new SqlCommand(query,connection);
+                SqlCommand command = new SqlCommand(query,connection);
                 connection.Open();
-                SqlDataReader = command.ExecuteReader();
+                SqlDataReader reader= command.ExecuteReader();
 
                 while(reader.Read())
                 {
@@ -30,8 +30,32 @@ namespace Internship.DAL.Repositories
                         CatID = (int)reader["CatID"]
 
                     };
-
+                    assets.Add(asset);
                 }
+               
+            }
+            return assets;
+        }
+
+        public void CreateAsset(Asset asset)
+        {
+            using(var connection = DatabaseHelper.GetConnection())
+            {
+                // SQL insert query to add a new record to the AssetDetail table
+                string query = @"INSERT INTO ASSET (AssetId,Name,ShortName,Description,Unit,CatID) VALUES (@AssetId,@Name,@ShortName,@Description,@Unit,@CatID)";
+                SqlCommand command = new SqlCommand(query,connection);
+
+                command.Parameters.AddWithValue("@AssetId",asset.AssetId);
+                command.Parameters.AddWithValue("@Name", asset.Name);
+                command.Parameters.AddWithValue("@ShortName", asset.ShortName);
+                command.Parameters.AddWithValue("@Description", asset.Description);
+                command.Parameters.AddWithValue("@Unit", asset.Unit);
+                command.Parameters.AddWithValue("@CatID", asset.CatID);
+
+
+                connection.Open();
+                command.ExecuteNonQuery();
+
             }
         }
     }
