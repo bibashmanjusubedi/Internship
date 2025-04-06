@@ -26,7 +26,7 @@ namespace Internship.DAL.Repositories
                         AssetId = (int)reader["AssetId"], // AssetId (foreign key)
                         AssetCode = (int)reader["AssetCode"], // AssetCode
                         Price = reader["Price"] != DBNull.Value ? (int)reader["Price"] : 0, // Price (check for null values)
-                        PurchaseDate = reader["PurchaseDate"] != DBNull.Value ? DateOnly.Parse(reader["PurchaseDate"].ToString()) : default, // Parse PurchaseDate
+                        PurchaseDate = reader["PurchaseDate"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["PurchaseDate"])): default,
                         Remark = reader["Remark"]?.ToString(), // Handle string fields
                         Status = reader["Status"]?.ToString() // Handle string fields
                     };
