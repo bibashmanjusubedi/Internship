@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Internship.Models.Person>
+@{
+	ViewData["Title"] = "Person List";
+}
+
+<h2>Person List</h2>
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>PId</th>
+			<th>Name</th>
+			<th>Address</th>
+			<th>Phone</th>
+			<th>PurchaseDate</th>
+			<th>LoginID</th>
+			<th>LoginStatus</th>
+			<th>Password</th>
+			<th>Remarks</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var person in Model)
+		{
+			<tr>
+				<td>@person.PId</td>
+				<td>@person.Name</td>
+				<td>@person.Address</td>
+				<td>@person.Phone</td>
+				<td>@person.LoginID</td>
+				<td>@person.LoginStatus</td>
+				<td>@person.Remarks</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@person.PId" class="btn btn-warning">Edit</a>
+					<a asp-action="Details" asp-route-id="@person.PId" class="btn btn-info">Details</a>
+					<a asp-action="Delete" asp-route-id="@person.PId" class="btn btn-danger">Delete</a>
+				</td>
+			</tr>
+
+		}
+	</tbody>
+</table>
+
+
+<a asp-action="Create" class="btn btn-primary">Add New Person</a>
