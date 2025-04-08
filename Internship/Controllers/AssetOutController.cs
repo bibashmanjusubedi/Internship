@@ -18,5 +18,28 @@ namespace Internship.Controllers
             List<AssetOut> assetouts = _assetOutRepository.GetAllAssetOuts();
             return View(assetouts);
         }
+
+        // Other actions like Create, Edit, Delete can be added here
+
+        // GET: AssetOut/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: AssetOut/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(AssetOut assetOut)
+        {
+            if (ModelState.IsValid)
+            {
+                _assetOutRepository.CreateAssetOut(assetOut);
+                return RedirectToAction(nameof(Index)); // Redirect to the list after creation
+            }
+
+            return View(assetOut); // Return to the form with validation errors if any
+        }
+
     }
 }

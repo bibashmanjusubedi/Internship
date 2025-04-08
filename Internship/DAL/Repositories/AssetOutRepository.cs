@@ -39,5 +39,28 @@ namespace Internship.DAL.Repositories
 
             return assetOuts;
         }
+
+        public void CreateAssetOut(AssetOut assetOut)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                // SQL insert query to add a new record to the AssetDetail table
+                string query = @"INSERT INTO AssetOut (Sn,AssetCode,OutDate,PId,DateToReturn,ReturnDate) VALUES (@Sn,@AssetCode,@OutDate,@PId,@DateToReturn,@ReturnDate)";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@Sn", assetOut.Sn);
+                command.Parameters.AddWithValue("@AssetCode", assetOut.AssetCode);
+                command.Parameters.AddWithValue("@OutDate", assetOut.OutDate);
+                command.Parameters.AddWithValue("@PId", assetOut.PId);
+                command.Parameters.AddWithValue("@DateToReturn", assetOut.DateToReturn);
+                command.Parameters.AddWithValue("@ReturnDate", assetOut.ReturnDate);
+                command.Parameters.AddWithValue("@Remarks", assetOut.Remarks);
+
+
+                connection.Open();
+                command.ExecuteNonQuery();
+
+            }
+        }
     }
 }

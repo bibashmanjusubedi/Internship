@@ -21,7 +21,7 @@
 
     <div class="form-group">
         <label asp-for="OutDate" class="control-label"></label>
-        <input asp-for="OutDate" class="form-control" />
+        <input asp-for="OutDate" class="form-control" type="date"/>
         <span asp-validation-for="OutDate" class="text-danger"></span>
     </div>
 
@@ -33,13 +33,13 @@
 
     <div class="form-group">
         <label asp-for="DateToReturn" class="control-label"></label>
-        <textarea asp-for="DateToReturn" class="form-control"></textarea>
+        <input asp-for="DateToReturn" class="form-control" type="date" />
         <span asp-validation-for="DateToReturn" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="ReturnDate" class="control-label"></label>
-        <input asp-for="ReturnDate" class="form-control" />
+        <input asp-for="ReturnDate" class="form-control" type="date" />
         <span asp-validation-for="ReturnDate" class="text-danger"></span>
     </div>
 
