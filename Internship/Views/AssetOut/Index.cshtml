@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Internship.Models.AssetOut>
+@{
+	ViewData["Title"] = "AssetOut";
+}
+
+<h2>AssetOut</h2>
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Sn</th>
+			<th>AssetCode</th>
+			<th>AssignedTo(PId)</th>
+			<th>OutDate</th>
+			<th>DateToReturn</th>
+			<th>ReturnDate</th>
+			<th>Remarks</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var assetOut in Model)
+		{
+			<tr>
+				<td>@assetOut.Sn</td>
+				<td>@assetOut.AssetCode</td>
+				<td>@assetOut.PId</td>
+				<td>@assetOut.OutDate</td>
+				<td>@assetOut.DateToReturn</td>
+				<td>@assetOut.ReturnDate</td>
+				<td>@assetOut.Remarks</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@assetOut.Sn" class="btn btn-warning">Edit</a>
+					<a asp-action="Details" asp-route-id="@assetOut.Sn" class="btn btn-info">Details</a>
+					<a asp-action="Delete" asp-route-id="@assetOut.Sn" class="btn btn-danger">Delete</a>
+				</td>
+			</tr>
+
+		}
+	</tbody>
+</table>
+
+
+<a asp-action="Create" class="btn btn-primary">Add New Asset Out</a>
