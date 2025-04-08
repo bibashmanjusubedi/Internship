@@ -19,10 +19,24 @@ namespace Internship.Controllers
             return View(persons);
         }
 
-        //// GET: Asset/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Asset/Person
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Person/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                _personRepository.CreatePerson(person);
+                return RedirectToAction(nameof(Index)); // Redirect to the list after creation
+            }
+
+            return View(person); // Return to the form with validation errors if any
+        }
     }
 }

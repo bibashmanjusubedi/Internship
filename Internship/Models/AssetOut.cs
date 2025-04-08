@@ -9,6 +9,8 @@ namespace Internship.Models
         [ForeignKey("AssetDetail")]
         public int AssetCode { get; set; }
         public DateOnly OutDate { get; set; }
+        [ForeignKey("Person")]
+        [Diesplay(Name="Assigned To")]
         public int PId { get; set; }
         public DateOnly DateToReturn { get; set; }
         public DateOnly ReturnDate { get; set; }

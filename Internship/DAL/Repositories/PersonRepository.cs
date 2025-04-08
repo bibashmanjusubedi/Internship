@@ -40,5 +40,29 @@ namespace Internship.DAL.Repositories
             return persons;
         }
 
+
+        public void CreatePerson(Person person)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                // SQL insert query to add a new record to the Person table
+                string query = @"INSERT INTO Person (PId,Name,Address,Phone,LoginID,LoginStatus,Password,Remarks) VALUES (@AssetId,@Name,@ShortName,@Description,@Unit,@CatID)";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@PId", person.PId);
+                command.Parameters.AddWithValue("@Name", person.Name);
+                command.Parameters.AddWithValue("@Address", person.Address);
+                command.Parameters.AddWithValue("@Phone", person.Phone);
+                command.Parameters.AddWithValue("@LoginID", person.LoginID);
+                command.Parameters.AddWithValue("@LoginStatus", person.LoginStatus);
+                command.Parameters.AddWithValue("@Password", person.Password);
+                command.Parameters.AddWithValue("@Remarks",person.Remarks);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+
+            }
+        }
+
     }
 }
