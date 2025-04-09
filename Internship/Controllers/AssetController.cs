@@ -43,5 +43,17 @@ namespace Internship.Controllers
         }
 
 
+        public IActionResult Details(int AssetId)
+        {
+            // Get the asset by AssetId from the repository
+            Asset asset = _assetRepository.GetAssetById(AssetId);
+
+            if (asset == null)
+            {
+                return NotFound($"No asset category found with CatID {AssetId}");
+            }
+            return View(asset);
+        }
+
     }
 }
