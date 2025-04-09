@@ -31,7 +31,9 @@ namespace Internship.DAL.Repositories
             }
             return assetCategories;
         }
-
+        
+        // CRUD Operations: Create Read Update(Edit) and Delete for AssetCategory
+        // Create operations for AssetCategory
         public void CreateAssetCategory(AssetCategory assetCategory)
         {
             using(var connection = DatabaseHelper.GetConnection())
@@ -49,5 +51,31 @@ namespace Internship.DAL.Repositories
 
             }
         }
+
+        public AssetCategory GetAssetCategoryById(int CatID)
+        {
+            AssetCategory assetCategory = null;
+            using ( var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "SELECT * FROM AssetCategory WHERE CatID = @CatID";
+                SqlCommand command = new SqlCommand(query,connection);
+                command.Parameters.AddWithValue("@CatID", CatID);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if(reader.Read())
+                {
+                    assetCategory = new AssetCategory
+                    {
+                        CatID = (int)reader["CatID"],
+                        CatName = reader["CatName"].ToString()
+                    };
+                }
+                
+            }
+            return assetCategory;
+
+        }
+
+
     }
 }
