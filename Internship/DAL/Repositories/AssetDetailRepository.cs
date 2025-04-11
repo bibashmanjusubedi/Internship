@@ -67,5 +67,35 @@ namespace Internship.DAL.Repositories
             }
         }
 
+        public AssetDetail GetAssetDetailById(int Sn)
+        {
+            AssetDetail assetDetail = null;
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "SELECT * FROM AssetDetail WHERE Sn = @Sn";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Sn", Sn);//line 69
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    assetDetail = new AssetDetail
+                    {
+                        Sn = (int)reader["Sn"],
+                        AssetId = (int)reader["AssetId"],
+                        AssetCode = (int)reader["AssetCode"],
+                        Price = (int)reader["Price"],
+                        PurchaseDate= reader["PurchaseDate"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["PurchaseDate"])) : default,
+                        Remark = reader["Remark"].ToString(),
+                        Status= reader["Status"].ToString()
+                    };
+                }
+
+            }
+            return assetDetail;
+
+        }
+
+
     }
 }

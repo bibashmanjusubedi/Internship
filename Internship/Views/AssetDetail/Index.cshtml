@@ -13,9 +13,9 @@
 			<th>AssetCode</th>
 			<th>Price</th>
 			<th>PurchaseDate</th>
+			<th>Remark</th>
 			<th>Status</th>
-			<th>Remarks</th>
-			<th>Status</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,7 +31,7 @@
 				<td>@assetDetail.Status</td>
 				<td>
 					<a asp-action="Edit" asp-route-id="@assetDetail.Sn" class="btn btn-warning">Edit</a>
-					<a asp-action="Details" asp-route-id="@assetDetail.Sn" class="btn btn-info">Details</a>
+					<a asp-action="Details" asp-route-Sn="@assetDetail.Sn" class="btn btn-info">Details</a>
 					<a asp-action="Delete" asp-route-id="@assetDetail.Sn" class="btn btn-danger">Delete</a>
 				</td>
 			</tr>

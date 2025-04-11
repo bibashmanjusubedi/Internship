@@ -1,5 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Internship.Models.AssetDetail
+
+<h2>Asset Detail Details</h2>
+
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>Sn</th>
+            <td>@Model.Sn</td>
+        </tr>
+        <tr>
+            <th>AssetId</th>
+            <td>@Model.AssetId</td>
+        </tr>
+        <tr>
+            <th>AssetCode</th>
+            <td>@Model.AssetCode</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>@Model.Price</td>
+        </tr>
+        <tr>
+            <th>PurchaseDate</th>
+            <td>@Model.PurchaseDate</td>
+        </tr>
+        <tr>
+            <th>Remark</th>
+            <td>@Model.Remark</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>@Model.Status</td>
+        </tr>
+    </table>
 }
+else
+{
+    <p>No asset detial found with the given Sn.</p>
+}
+
