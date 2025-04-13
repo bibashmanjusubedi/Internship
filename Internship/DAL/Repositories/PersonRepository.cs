@@ -46,7 +46,7 @@ namespace Internship.DAL.Repositories
             using (var connection = DatabaseHelper.GetConnection())
             {
                 // SQL insert query to add a new record to the Person table
-                string query = @"INSERT INTO Person (PId,Name,Address,Phone,LoginID,LoginStatus,Password,Remarks) VALUES (@AssetId,@Name,@ShortName,@Description,@Unit,@CatID)";
+                string query = @"INSERT INTO Person (PId,Name,Address,Phone,LoginID,LoginStatus,Password,Remarks) VALUES (@PId,@Name,@Address,@Phone,@LoginID,@LoginStatus,@Password,@Remarks)";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@PId", person.PId);
@@ -63,6 +63,39 @@ namespace Internship.DAL.Repositories
 
             }
         }
+
+        public Person GetPersonById(int PId)
+        {
+            Person person = null;
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "SELECT * FROM Person WHERE PId = @PId";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("PId", PId);//line 69
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    person = new Person
+                    {
+                        PId = (int)reader["PId"],
+                        Name = reader["Name"].ToString(),
+                        Address = reader["Address"].ToString(),
+                        Phone = reader["Phone"].ToString(),
+                        LoginID = (int)reader["LoginID"],
+                        Password = reader["Password"].ToString(),
+                        LoginStatus = reader["LoginStatus"] != DBNull.Value ? Convert.ToBoolean(reader["LoginStatus"]) : false,//line 87
+                        Remarks = reader["Remarks"].ToString()
+                    };
+                }
+
+            }
+            return person;
+
+        }
+
+
+
 
     }
 }

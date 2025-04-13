@@ -13,7 +13,6 @@ namespace Internship.Models
         [StringLength(15)]
         public string Phone { get; set; }
         public int LoginID { get; set; }
-        [StringLength(100)]
 
         public bool LoginStatus { get; set; } = false;
         public string Password { get; set; }

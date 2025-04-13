@@ -38,5 +38,17 @@ namespace Internship.Controllers
 
             return View(person); // Return to the form with validation errors if any
         }
+
+        public IActionResult Details(int PId)
+        {
+            // Get the asset by AssetId from the repository
+            Person person = _personRepository.GetPersonById(PId);
+
+            if (person == null)
+            {
+                return NotFound($"No asset category found with person ID {PId}");
+            }
+            return View(person);
+        }
     }
 }

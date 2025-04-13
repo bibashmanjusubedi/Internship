@@ -12,11 +12,10 @@
 			<th>Name</th>
 			<th>Address</th>
 			<th>Phone</th>
-			<th>PurchaseDate</th>
 			<th>LoginID</th>
 			<th>LoginStatus</th>
-			<th>Password</th>
 			<th>Remarks</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -32,7 +31,7 @@
 				<td>@person.Remarks</td>
 				<td>
 					<a asp-action="Edit" asp-route-id="@person.PId" class="btn btn-warning">Edit</a>
-					<a asp-action="Details" asp-route-id="@person.PId" class="btn btn-info">Details</a>
+					<a asp-action="Details" asp-route-PId="@person.PId" class="btn btn-info">Details</a>
 					<a asp-action="Delete" asp-route-id="@person.PId" class="btn btn-danger">Delete</a>
 				</td>
 			</tr>
