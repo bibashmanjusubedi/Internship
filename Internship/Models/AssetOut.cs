@@ -9,13 +9,13 @@ namespace Internship.Models
         public int Sn { get; set; }
         [ForeignKey("AssetDetail")]
         public int AssetCode { get; set; }
+        [ForeignKey("AssetDetail")]
         public DateOnly OutDate { get; set; }
         [ForeignKey("Person")]
         [Display(Name="Assigned To")]
         public int PId { get; set; }
         public DateOnly DateToReturn { get; set; }
         public DateOnly ReturnDate { get; set; }
-        [StringLength(255)]
         public string Remarks { get; set; }
     }
 }

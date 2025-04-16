@@ -41,5 +41,18 @@ namespace Internship.Controllers
             return View(assetOut); // Return to the form with validation errors if any
         }
 
+        public IActionResult Details(int Sn)
+        {
+            // Get the asset by AssetId from the repository
+            AssetOut assetOut = _assetOutRepository.GetAssetOutById(Sn);//line 53
+
+            if (assetOut == null)
+            {
+                return NotFound($"No Asset Out Detail found with Sn {Sn}");
+            }
+            return View(assetOut);
+        }
+
+
     }
 }

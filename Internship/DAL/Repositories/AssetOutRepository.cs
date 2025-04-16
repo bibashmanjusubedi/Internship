@@ -62,5 +62,39 @@ namespace Internship.DAL.Repositories
 
             }
         }
+
+        public AssetOut GetAssetOutById(int Sn)
+        {
+            AssetOut assetOut = null;
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "SELECT * FROM AssetOut WHERE Sn = @Sn";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Sn", Sn);//line 69
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    assetOut = new AssetOut
+                    {
+                        Sn = (int)reader["Sn"],
+                        AssetCode = (int)reader["AssetCode"], // AssetCode
+                        PId = (int)reader["PId"],//assigned to
+                        OutDate = reader["OutDate"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["OutDate"])) : default,
+                        DateToReturn = reader["DateToReturn"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["DateToReturn"])) : default,
+                        ReturnDate = reader["ReturnDate"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["ReturnDate"])) : default,
+                        Remarks = reader["Remarks"]?.ToString(), // Handle string field
+                    };
+                }
+
+            }
+            return assetOut;
+
+        }
     }
+
+    
+
+
+
 }
