@@ -55,5 +55,29 @@ namespace Internship.Controllers
             return View(asset);
         }
 
+        // GET: Asset/Delete/5
+        public IActionResult Delete(int AssetId)
+        {
+            Asset asset = _assetRepository.GetAssetById(AssetId);
+
+            if (asset == null)
+            {
+                return NotFound($"No asset found with AssetId {AssetId}");
+            }
+
+            return View(asset); // Shows confirmation page
+        }
+
+        // POST: Asset/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int AssetId)
+        {
+            _assetRepository.DeleteAsset(AssetId);
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
     }
 }

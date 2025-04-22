@@ -50,5 +50,26 @@ namespace Internship.Controllers
             }
             return View(person);
         }
+
+        // GET: Person/Delete/5
+        public IActionResult Delete(int PId)
+        {
+            var person = _personRepository.GetPersonById(PId);
+            if (person == null)
+            {
+                return NotFound($"No person found with ID {PId}");
+            }
+            return View(person); // Show confirmation view
+        }
+
+        // POST: Person/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int PId)
+        {
+            _personRepository.DeletePerson(PId);
+            return RedirectToAction(nameof(Index)); // After deletion, return to list
+        }
+
     }
 }

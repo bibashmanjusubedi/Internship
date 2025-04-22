@@ -77,5 +77,18 @@ namespace Internship.DAL.Repositories
         }
 
 
+        public void DeleteAssetCategory(int CatID)
+        {
+            using (var  connection = DatabaseHelper.GetConnection())
+            {
+                string query = "DELETE FROM AssetCategory WHERE CatID=@CatID";
+                SqlCommand command = new SqlCommand(query,connection);
+                command.Parameters.AddWithValue("@CatID", CatID);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
     }
 }

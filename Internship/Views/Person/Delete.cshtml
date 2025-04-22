@@ -1,5 +1,16 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Internship.Models.Person
+
+<h2>Delete Person</h2>
+
+<h4>Are you sure you want to delete this person?</h4>
+<div>
+    <strong>Name:</strong> @Model.Name <br />
+    <strong>Phone:</strong> @Model.Phone <br />
+    <strong>Address:</strong> @Model.Address <br />
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="PId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

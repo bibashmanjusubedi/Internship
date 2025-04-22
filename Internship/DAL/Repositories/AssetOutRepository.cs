@@ -91,9 +91,28 @@ namespace Internship.DAL.Repositories
             return assetOut;
 
         }
+
+
+        public void DeleteAssetOut(int Sn)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "DELETE FROM AssetOut WHERE Sn = @Sn";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Sn", Sn);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
+
     }
 
-    
+
+
+
 
 
 

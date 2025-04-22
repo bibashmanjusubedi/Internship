@@ -58,5 +58,29 @@ namespace Internship.Controllers
             return View(assetCategory);
         }
 
+        // GET: AssetCategory/Delete/5
+        public IActionResult Delete(int CatID)
+        {
+            AssetCategory assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+
+            if (assetCategory == null)
+            {
+                return NotFound($"No asset category found with CatID {CatID}");
+            }
+
+            return View(assetCategory); // Show confirmation view
+        }
+
+        // POST: AssetCategory/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int CatID)
+        {
+            _assetCategoryRepository.DeleteAssetCategory(CatID);
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
     }
 }

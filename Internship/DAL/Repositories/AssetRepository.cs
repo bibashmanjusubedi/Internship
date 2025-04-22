@@ -87,5 +87,19 @@ namespace Internship.DAL.Repositories
 
         }
 
+        public void DeleteAsset(int AssetId)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "DELETE FROM Asset WHERE AssetId = @AssetId";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@AssetId", AssetId);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
     }
 }

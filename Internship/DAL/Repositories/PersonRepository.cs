@@ -94,6 +94,22 @@ namespace Internship.DAL.Repositories
 
         }
 
+        public void DeletePerson(int PId)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "DELETE FROM Person WHERE PId = @PId";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PId", PId);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
+
+
 
 
 

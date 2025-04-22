@@ -1,5 +1,16 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Internship.Models.AssetCategory
+
+<h2>Delete Asset Category</h2>
+
+<h3>Are you sure you want to delete this category?</h3>
+
+<div>
+    <strong>Category ID:</strong> @Model.CatID<br />
+    <strong>Category Name:</strong> @Model.CatName
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="CatID" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -53,6 +53,27 @@ namespace Internship.Controllers
             return View(assetOut);
         }
 
+        // GET: AssetOut/Delete/5
+        public IActionResult Delete(int Sn)
+        {
+            AssetOut assetOut = _assetOutRepository.GetAssetOutById(Sn);
+            if (assetOut == null)
+            {
+                return NotFound($"No Asset Out found with Sn {Sn}");
+            }
+            return View(assetOut);
+        }
+
+        // POST: AssetOut/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int Sn)
+        {
+            _assetOutRepository.DeleteAssetOut(Sn);
+            return RedirectToAction(nameof(Index));
+        }
+
+
 
     }
 }
