@@ -106,6 +106,35 @@ namespace Internship.DAL.Repositories
             }
         }
 
+        public void UpdateAssetOut(AssetOut assetOut)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = @"UPDATE AssetOut 
+                         SET AssetCode = @AssetCode,
+                             OutDate = @OutDate,
+                             PId = @PId,
+                             DateToReturn = @DateToReturn,
+                             ReturnDate = @ReturnDate,
+                             Remarks = @Remarks
+                         WHERE Sn = @Sn";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@Sn", assetOut.Sn);
+                command.Parameters.AddWithValue("@AssetCode", assetOut.AssetCode);
+                command.Parameters.AddWithValue("@OutDate", assetOut.OutDate);
+                command.Parameters.AddWithValue("@PId", assetOut.PId);
+                command.Parameters.AddWithValue("@DateToReturn", assetOut.DateToReturn);
+                command.Parameters.AddWithValue("@ReturnDate", assetOut.ReturnDate);
+                command.Parameters.AddWithValue("@Remarks", assetOut.Remarks ?? (object)DBNull.Value);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
 
 
     }

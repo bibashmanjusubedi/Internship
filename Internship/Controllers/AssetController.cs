@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Internship.DAL.Repositories;
 using Internship.Models;
+using Internship.DAL;
 
 namespace Internship.Controllers
 {
@@ -75,6 +76,29 @@ namespace Internship.Controllers
         {
             _assetRepository.DeleteAsset(AssetId);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult Edit(int AssetId)
+        {
+            var asset = _assetRepository.GetAssetById(AssetId);
+            if (asset == null)
+            {
+                return NotFound();
+            }
+            return View(asset);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Asset asset)
+        {
+            if (ModelState.IsValid)
+            {
+                _assetRepository.UpdateAsset(asset);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(asset);
         }
 
 

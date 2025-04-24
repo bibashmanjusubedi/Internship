@@ -71,5 +71,32 @@ namespace Internship.Controllers
             return RedirectToAction(nameof(Index)); // After deletion, return to list
         }
 
+
+        // GET: Person/Edit/5
+        public IActionResult Edit(int PId)
+        {
+            var person = _personRepository.GetPersonById(PId);
+            if (person == null)
+            {
+                return NotFound($"No person found with ID {PId}");
+            }
+            return View(person); // Show the edit form with current data
+        }
+
+        // POST: Person/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                _personRepository.UpdatePerson(person);
+                return RedirectToAction(nameof(Index)); // Redirect to the list after update
+            }
+
+            return View(person); // Return to the form with validation errors
+        }
+
+
     }
 }

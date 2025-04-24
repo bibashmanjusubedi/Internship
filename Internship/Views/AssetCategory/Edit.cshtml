@@ -1,5 +1,30 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Internship.Models.AssetCategory
+
 @{
+    ViewData["Title"] = "Edit Asset Category";
+}
+
+<h2>Edit Asset Category</h2>
+
+<form asp-action="Edit">
+    <div class="form-group">
+        <label asp-for="CatID" class="control-label"></label>
+        <input asp-for="CatID" class="form-control" readonly />
+        <span asp-validation-for="CatID" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CatName" class="control-label"></label>
+        <input asp-for="CatName" class="form-control" />
+        <span asp-validation-for="CatName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

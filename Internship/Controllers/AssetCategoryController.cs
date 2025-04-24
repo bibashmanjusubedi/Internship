@@ -80,7 +80,61 @@ namespace Internship.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: AssetCategory/Edit/5
+        public IActionResult Edit(int CatID)
+        {
+            var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
 
+            if (assetCategory == null)
+            {
+                return NotFound($"No asset category found with CatID {CatID}");
+            }
+
+            return View(assetCategory); // Show form with current values
+        }
+
+        // POST: AssetCategory/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(AssetCategory assetCategory)
+        {
+            if (ModelState.IsValid)
+            {
+                _assetCategoryRepository.UpdateAssetCategory(assetCategory);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(assetCategory);
+        }
+
+        // GET: AssetCategory/PatchName/5
+        public IActionResult PatchName(int CatID)
+        {
+            var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+
+            if (assetCategory == null)
+            {
+                return NotFound($"No asset category found with CatID {CatID}");
+            }
+
+            return View(assetCategory); // Only show/edit the name field
+        }
+
+        // POST: AssetCategory/PatchName/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PatchName(int CatID, string CatName)
+        {
+            if (string.IsNullOrWhiteSpace(CatName))
+            {
+                ModelState.AddModelError("CatName", "Category name is required.");
+                var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+                return View(assetCategory);
+            }
+
+            _assetCategoryRepository.PatchAssetCategoryName(CatID, CatName);
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }

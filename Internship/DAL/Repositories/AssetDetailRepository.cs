@@ -110,6 +110,38 @@ namespace Internship.DAL.Repositories
         }
 
 
+        public void UpdateAssetDetail(AssetDetail assetDetail)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = @"
+            UPDATE AssetDetail
+            SET 
+                AssetId = @AssetId,
+                AssetCode = @AssetCode,
+                Price = @Price,
+                PurchaseDate = @PurchaseDate,
+                Remark = @Remark,
+                Status = @Status
+            WHERE Sn = @Sn";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@Sn", assetDetail.Sn);
+                command.Parameters.AddWithValue("@AssetId", assetDetail.AssetId);
+                command.Parameters.AddWithValue("@AssetCode", assetDetail.AssetCode);
+                command.Parameters.AddWithValue("@Price", assetDetail.Price);
+                command.Parameters.AddWithValue("@PurchaseDate", assetDetail.PurchaseDate != default ? assetDetail.PurchaseDate.ToDateTime(new TimeOnly()) : DBNull.Value);
+                command.Parameters.AddWithValue("@Remark", assetDetail.Remark ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@Status", assetDetail.Status ?? (object)DBNull.Value);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
+
 
     }
 }

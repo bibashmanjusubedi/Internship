@@ -73,7 +73,29 @@ namespace Internship.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Edit(int Sn)
+        {
+            var assetOut = _assetOutRepository.GetAssetOutById(Sn);
+            if (assetOut == null)
+            {
+                return NotFound($"No asset out record found with SN {Sn}");
+            }
+            return View(assetOut); // Pass data to edit form
+        }
 
+        // POST: AssetOut/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(AssetOut assetOut)
+        {
+            if (ModelState.IsValid)
+            {
+                _assetOutRepository.UpdateAssetOut(assetOut);
+                return RedirectToAction(nameof(Index)); // After update
+            }
+
+            return View(assetOut); // Return form if validation fails
+        }
 
     }
 }

@@ -107,6 +107,37 @@ namespace Internship.DAL.Repositories
             }
         }
 
+        public void UpdatePerson(Person person)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = @"UPDATE Person 
+                         SET Name = @Name,
+                             Address = @Address,
+                             Phone = @Phone,
+                             LoginID = @LoginID,
+                             LoginStatus = @LoginStatus,
+                             Password = @Password,
+                             Remarks = @Remarks
+                         WHERE PId = @PId";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@PId", person.PId);
+                command.Parameters.AddWithValue("@Name", person.Name);
+                command.Parameters.AddWithValue("@Address", person.Address);
+                command.Parameters.AddWithValue("@Phone", person.Phone);
+                command.Parameters.AddWithValue("@LoginID", person.LoginID);
+                command.Parameters.AddWithValue("@LoginStatus", person.LoginStatus);
+                command.Parameters.AddWithValue("@Password", person.Password);
+                command.Parameters.AddWithValue("@Remarks", person.Remarks);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
 
 
 

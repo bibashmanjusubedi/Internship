@@ -101,5 +101,32 @@ namespace Internship.DAL.Repositories
         }
 
 
+        public void UpdateAsset(Asset asset)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = @"UPDATE Asset 
+                         SET Name = @Name, 
+                             ShortName = @ShortName, 
+                             Description = @Description, 
+                             Unit = @Unit, 
+                             CatID = @CatID 
+                         WHERE AssetId = @AssetId";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@AssetId", asset.AssetId);
+                command.Parameters.AddWithValue("@Name", asset.Name);
+                command.Parameters.AddWithValue("@ShortName", asset.ShortName);
+                command.Parameters.AddWithValue("@Description", (object)asset.Description ?? DBNull.Value);
+                command.Parameters.AddWithValue("@Unit", (object)asset.Unit ?? DBNull.Value);
+                command.Parameters.AddWithValue("@CatID", asset.CatID);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+
+
     }
 }

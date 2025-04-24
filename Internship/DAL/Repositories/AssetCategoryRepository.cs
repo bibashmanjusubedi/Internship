@@ -88,7 +88,37 @@ namespace Internship.DAL.Repositories
                 command.ExecuteNonQuery();
             }
         }
+        
 
+        // PUT Patch
+        public void UpdateAssetCategory(AssetCategory assetCategory)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "UPDATE AssetCategory SET CatName = @CatName WHERE CatID = @CatID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@CatID", assetCategory.CatID);
+                command.Parameters.AddWithValue("@CatName", assetCategory.CatName);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+        // Partial update (PATCH-like), for example just updating the name
+        public void PatchAssetCategoryName(int catID, string newCatName)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "UPDATE AssetCategory SET CatName = @CatName WHERE CatID = @CatID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@CatID", catID);
+                command.Parameters.AddWithValue("@CatName", newCatName);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
 
     }
 }

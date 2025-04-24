@@ -81,6 +81,38 @@ namespace Internship.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: AssetDetail/Edit/5
+        public IActionResult Edit(int Sn)
+        {
+            AssetDetail assetDetail = _assetDetailRepository.GetAssetDetailById(Sn);
+            if (assetDetail == null)
+            {
+                return NotFound($"No Asset Detail found with Sn {Sn}");
+            }
+
+            return View(assetDetail);
+        }
+
+        // POST: AssetDetail/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int Sn, AssetDetail assetDetail)
+        {
+            if (Sn != assetDetail.Sn)
+            {
+                return BadRequest("Asset identifier mismatch.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _assetDetailRepository.UpdateAssetDetail(assetDetail); // This is the PUT-style update you added earlier
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(assetDetail); // Return form with validation errors
+        }
+
+
 
 
     }
