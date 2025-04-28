@@ -11,7 +11,7 @@ using Internship.Models;
 namespace Internship.Controllers
 {
     [ApiController]
-    [Route("api/[controller")]
+    [Route("api/[controller]")]
     public class AuthController:ControllerBase
     {
         private readonly JwtSettings _jwtSettings;
@@ -44,7 +44,18 @@ namespace Internship.Controllers
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
-            var creds = new SigningCredentials//todo
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);  // Return the token
         }
 
        

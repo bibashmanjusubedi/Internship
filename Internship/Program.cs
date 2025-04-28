@@ -1,7 +1,38 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Internship.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings.Issuer,
+        ValidAudience = jwtSettings.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
+    };
+});
+
+builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 
@@ -19,10 +50,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-//hope it runs successfully
