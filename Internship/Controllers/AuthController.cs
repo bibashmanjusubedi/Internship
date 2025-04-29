@@ -12,6 +12,7 @@ namespace Internship.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+
     public class AuthController:ControllerBase
     {
         private readonly JwtSettings _jwtSettings;
@@ -26,10 +27,20 @@ namespace Internship.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            if(_authRepo.ValidateUser(request.Username, request.Password))
+            if(_authRepo.ValidateUser(request.Name, request.Password))
             {
-                var token = GenerateJwtToken(request.Username);
-                return Ok(token);
+                var token = GenerateJwtToken(request.Name);
+                Response.Cookies.Append("jwt_token", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes)
+                });
+
+
+                // Return success message instead of the token
+                return Ok(new { message = "Login successful" });
             }
 
             return Unauthorized("Invalid credentials");

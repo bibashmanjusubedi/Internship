@@ -4,16 +4,18 @@ namespace Internship.DAL.Repositories
 {
     public class AuthRepository
     {
-        public bool ValidateUser(string username,string password)
+        public bool ValidateUser(string name,string password)
         {
             using(var connection = DatabaseHelper.GetConnection())
             {
-                string query = "SELECT COUNT(*) FROM Users WHERE Username = @Username AND Password=@Password";
+                string query = "SELECT COUNT(*) FROM Person WHERE Name = @Name AND Password=@Password";
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@Name", name);
                 command.Parameters.AddWithValue("@Password", password);
-                connection.Open();
+                connection.Open();//line15
                 int count = (int)command.ExecuteScalar();
+
+                // Console.WriteLine(name, password);
                 return count > 0;
             }
         }
