@@ -1,9 +1,12 @@
 ﻿using Internship.DAL.Repositories;
 using Internship.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Internship.Controllers
 {
+
+    [Authorize(Roles = "Admin")]
     public class AssetCategoryController: Controller
     {
         private readonly AssetCategoryRepository _assetCategoryRepository;
