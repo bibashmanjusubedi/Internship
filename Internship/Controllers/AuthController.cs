@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using Internship.DAL.Repositories;
 using Internship.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Internship.Controllers
@@ -46,6 +47,8 @@ namespace Internship.Controllers
             return Unauthorized("Invalid credentials");
         }
 
+        
+
         private string GenerateJwtToken(string username)
         {
             var claims = new[]
@@ -69,7 +72,14 @@ namespace Internship.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);  // Return the token
         }
 
-       
-        
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt_token");
+            return Ok(new { message = "Logged out successfully" });
+        }
+
+
     }
 }

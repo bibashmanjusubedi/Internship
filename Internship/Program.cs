@@ -29,6 +29,15 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings.Audience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            // Read token from the cookie
+            context.Token = context.Request.Cookies["jwt_token"];
+            return Task.CompletedTask;
+        }
+    };
 });
 
 builder.Services.AddAuthorization();
@@ -49,7 +58,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
