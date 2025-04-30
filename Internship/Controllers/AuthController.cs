@@ -54,6 +54,7 @@ namespace Internship.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name,username),
+                new Claim(ClaimTypes.Role, "Admin"),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
             };
 
