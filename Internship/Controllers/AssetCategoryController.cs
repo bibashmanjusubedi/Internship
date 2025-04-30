@@ -6,140 +6,140 @@ using Microsoft.AspNetCore.Mvc;
 namespace Internship.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
-    public class AssetCategoryController: Controller
-    {
-        private readonly AssetCategoryRepository _assetCategoryRepository;
+    //[Authorize(Roles = "Admin")]
+    //public class AssetCategoryController: Controller
+    //{
+    //    private readonly AssetCategoryRepository _assetCategoryRepository;
 
-        // Constructor to initialize the repository
-        public AssetCategoryController()
-        {
-            _assetCategoryRepository = new AssetCategoryRepository(); //line 21 // You could also use Dependency Injection for better testing and maintainability
-        }
+    //    // Constructor to initialize the repository
+    //    public AssetCategoryController()
+    //    {
+    //        _assetCategoryRepository = new AssetCategoryRepository(); //line 21 // You could also use Dependency Injection for better testing and maintainability
+    //    }
 
-        // Action to display all asset details
-        public IActionResult Index()
-        {
-            // Get all asset details from the repository
-            List<AssetCategory> assetCategories = _assetCategoryRepository.GetAllAssetCategories();
+    //    // Action to display all asset details
+    //    public IActionResult Index()
+    //    {
+    //        // Get all asset details from the repository
+    //        List<AssetCategory> assetCategories = _assetCategoryRepository.GetAllAssetCategories();
 
-            // Pass the asset details to the view
-            return View(assetCategories);
-        }
+    //        // Pass the asset details to the view
+    //        return View(assetCategories);
+    //    }
 
-        // Other actions like Create, Edit, Delete can be added here
+    //    // Other actions like Create, Edit, Delete can be added here
 
-        // GET: AssetCategory/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+    //    // GET: AssetCategory/Create
+    //    public IActionResult Create()
+    //    {
+    //        return View();
+    //    }
 
-        // POST: AssetCategory/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(AssetCategory assetCategory)
-        {
-            if (ModelState.IsValid)
-            {
-                _assetCategoryRepository.CreateAssetCategory(assetCategory);
-                return RedirectToAction(nameof(Index)); // Redirect to the list after creation
-            }
+    //    // POST: AssetCategory/Create
+    //    [HttpPost]
+    //    [ValidateAntiForgeryToken]
+    //    public IActionResult Create(AssetCategory assetCategory)
+    //    {
+    //        if (ModelState.IsValid)
+    //        {
+    //            _assetCategoryRepository.CreateAssetCategory(assetCategory);
+    //            return RedirectToAction(nameof(Index)); // Redirect to the list after creation
+    //        }
 
-            return View(assetCategory); // Return to the form with validation errors if any
-        }
+    //        return View(assetCategory); // Return to the form with validation errors if any
+    //    }
 
-        public IActionResult Details(int CatID)
-        {
-            // Get the asset category  by CatID from the repository
-            AssetCategory assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+    //    public IActionResult Details(int CatID)
+    //    {
+    //        // Get the asset category  by CatID from the repository
+    //        AssetCategory assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
 
-            if (assetCategory == null)
-            {
-                return NotFound($"No asset category found with CatID {CatID}");
-            }
-            return View(assetCategory);
-        }
+    //        if (assetCategory == null)
+    //        {
+    //            return NotFound($"No asset category found with CatID {CatID}");
+    //        }
+    //        return View(assetCategory);
+    //    }
 
-        // GET: AssetCategory/Delete/5
-        public IActionResult Delete(int CatID)
-        {
-            AssetCategory assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+    //    // GET: AssetCategory/Delete/5
+    //    public IActionResult Delete(int CatID)
+    //    {
+    //        AssetCategory assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
 
-            if (assetCategory == null)
-            {
-                return NotFound($"No asset category found with CatID {CatID}");
-            }
+    //        if (assetCategory == null)
+    //        {
+    //            return NotFound($"No asset category found with CatID {CatID}");
+    //        }
 
-            return View(assetCategory); // Show confirmation view
-        }
+    //        return View(assetCategory); // Show confirmation view
+    //    }
 
-        // POST: AssetCategory/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int CatID)
-        {
-            _assetCategoryRepository.DeleteAssetCategory(CatID);
-            return RedirectToAction(nameof(Index));
-        }
+    //    // POST: AssetCategory/Delete/5
+    //    [HttpPost, ActionName("Delete")]
+    //    [ValidateAntiForgeryToken]
+    //    public IActionResult DeleteConfirmed(int CatID)
+    //    {
+    //        _assetCategoryRepository.DeleteAssetCategory(CatID);
+    //        return RedirectToAction(nameof(Index));
+    //    }
 
-        // GET: AssetCategory/Edit/5
-        public IActionResult Edit(int CatID)
-        {
-            var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+    //    // GET: AssetCategory/Edit/5
+    //    public IActionResult Edit(int CatID)
+    //    {
+    //        var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
 
-            if (assetCategory == null)
-            {
-                return NotFound($"No asset category found with CatID {CatID}");
-            }
+    //        if (assetCategory == null)
+    //        {
+    //            return NotFound($"No asset category found with CatID {CatID}");
+    //        }
 
-            return View(assetCategory); // Show form with current values
-        }
+    //        return View(assetCategory); // Show form with current values
+    //    }
 
-        // POST: AssetCategory/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(AssetCategory assetCategory)
-        {
-            if (ModelState.IsValid)
-            {
-                _assetCategoryRepository.UpdateAssetCategory(assetCategory);
-                return RedirectToAction(nameof(Index));
-            }
+    //    // POST: AssetCategory/Edit/5
+    //    [HttpPost]
+    //    [ValidateAntiForgeryToken]
+    //    public IActionResult Edit(AssetCategory assetCategory)
+    //    {
+    //        if (ModelState.IsValid)
+    //        {
+    //            _assetCategoryRepository.UpdateAssetCategory(assetCategory);
+    //            return RedirectToAction(nameof(Index));
+    //        }
 
-            return View(assetCategory);
-        }
+    //        return View(assetCategory);
+    //    }
 
-        // GET: AssetCategory/PatchName/5
-        public IActionResult PatchName(int CatID)
-        {
-            var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+    //    // GET: AssetCategory/PatchName/5
+    //    public IActionResult PatchName(int CatID)
+    //    {
+    //        var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
 
-            if (assetCategory == null)
-            {
-                return NotFound($"No asset category found with CatID {CatID}");
-            }
+    //        if (assetCategory == null)
+    //        {
+    //            return NotFound($"No asset category found with CatID {CatID}");
+    //        }
 
-            return View(assetCategory); // Only show/edit the name field
-        }
+    //        return View(assetCategory); // Only show/edit the name field
+    //    }
 
-        // POST: AssetCategory/PatchName/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult PatchName(int CatID, string CatName)
-        {
-            if (string.IsNullOrWhiteSpace(CatName))
-            {
-                ModelState.AddModelError("CatName", "Category name is required.");
-                var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
-                return View(assetCategory);
-            }
+    //    // POST: AssetCategory/PatchName/5
+    //    [HttpPost]
+    //    [ValidateAntiForgeryToken]
+    //    public IActionResult PatchName(int CatID, string CatName)
+    //    {
+    //        if (string.IsNullOrWhiteSpace(CatName))
+    //        {
+    //            ModelState.AddModelError("CatName", "Category name is required.");
+    //            var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+    //            return View(assetCategory);
+    //        }
 
-            _assetCategoryRepository.PatchAssetCategoryName(CatID, CatName);
-            return RedirectToAction(nameof(Index));
-        }
+    //        _assetCategoryRepository.PatchAssetCategoryName(CatID, CatName);
+    //        return RedirectToAction(nameof(Index));
+    //    }
 
-    }
+    //}
 
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
@@ -161,7 +161,7 @@ namespace Internship.Controllers
             List<AssetCategory> assetCategories = _assetCategoryRepository.GetAllAssetCategories();
 
             // Pass the asset details to the view
-            return View(assetCategories);
+            return Ok(assetCategories);
         }
 
         // Other actions like Create, Edit, Delete can be added here
@@ -169,7 +169,7 @@ namespace Internship.Controllers
         // GET: AssetCategory/Create
         public IActionResult Create()
         {
-            return View();
+            return Ok(new { message = "This would be your create form data" });
         }
 
         // POST: AssetCategory/Create
@@ -183,7 +183,7 @@ namespace Internship.Controllers
                 return RedirectToAction(nameof(Index)); // Redirect to the list after creation
             }
 
-            return View(assetCategory); // Return to the form with validation errors if any
+            return Ok(assetCategory); // Return to the form with validation errors if any
         }
 
         public IActionResult Details(int CatID)
@@ -195,7 +195,7 @@ namespace Internship.Controllers
             {
                 return NotFound($"No asset category found with CatID {CatID}");
             }
-            return View(assetCategory);
+            return Ok(assetCategory);
         }
 
         // GET: AssetCategory/Delete/5
@@ -208,7 +208,7 @@ namespace Internship.Controllers
                 return NotFound($"No asset category found with CatID {CatID}");
             }
 
-            return View(assetCategory); // Show confirmation view
+            return Ok(assetCategory); // Show confirmation view
         }
 
         // POST: AssetCategory/Delete/5
@@ -230,7 +230,7 @@ namespace Internship.Controllers
                 return NotFound($"No asset category found with CatID {CatID}");
             }
 
-            return View(assetCategory); // Show form with current values
+            return Ok(assetCategory); // Show form with current values
         }
 
         // POST: AssetCategory/Edit/5
@@ -244,7 +244,7 @@ namespace Internship.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(assetCategory);
+            return Ok(assetCategory);
         }
 
         // GET: AssetCategory/PatchName/5
@@ -257,24 +257,24 @@ namespace Internship.Controllers
                 return NotFound($"No asset category found with CatID {CatID}");
             }
 
-            return View(assetCategory); // Only show/edit the name field
+            return Ok(assetCategory); // Only show/edit the name field
         }
 
         // POST: AssetCategory/PatchName/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult PatchName(int CatID, string CatName)
-        {
-            if (string.IsNullOrWhiteSpace(CatName))
-            {
-                ModelState.AddModelError("CatName", "Category name is required.");
-                var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
-                return View(assetCategory);
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult PatchName(int CatID, string CatName)
+        //{
+        //    if (string.IsNullOrWhiteSpace(CatName))
+        //    {
+        //        ModelState.AddModelError("CatName", "Category name is required.");
+        //        var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
+        //        return View(assetCategory);
+        //    }
 
-            _assetCategoryRepository.PatchAssetCategoryName(CatID, CatName);
-            return RedirectToAction(nameof(Index));
-        }
+        //    _assetCategoryRepository.PatchAssetCategoryName(CatID, CatName);
+        //    return RedirectToAction(nameof(Index));
+        //}
 
     }
 }
