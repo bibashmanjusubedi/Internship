@@ -19,6 +19,7 @@ namespace Internship.Controllers
         }
 
         // Action to display all asset details
+        [HttpGet]
         public IActionResult Index()
         {
             // Get all asset details from the repository
@@ -50,6 +51,7 @@ namespace Internship.Controllers
             return Ok(assetCategory); // Return to the form with validation errors if any
         }
 
+        [HttpGet("{CatID}")]
         public IActionResult Details(int CatID)
         {
             // Get the asset category  by CatID from the repository
@@ -123,7 +125,8 @@ namespace Internship.Controllers
 
             return Ok(assetCategory); // Only show/edit the name field
         }
-    
+
+        
 
     }
 }
