@@ -82,8 +82,8 @@ namespace Internship.Controllers
         }
 
         // POST: AssetCategory/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Delete/{CatID}")]// ActionName("Delete")]
+        //[ValidateAntiForgeryToken] only for MVC views not API Views
         public IActionResult DeleteConfirmed(int CatID)
         {
             _assetCategoryRepository.DeleteAssetCategory(CatID);
