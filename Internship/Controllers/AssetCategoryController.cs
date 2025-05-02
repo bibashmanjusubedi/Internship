@@ -41,8 +41,8 @@ namespace Internship.Controllers
         }
 
         // POST: AssetCategory/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Create")]
+        //[ValidateAntiForgeryToken]
         public IActionResult Create(AssetCategory assetCategory)
         {
             if (ModelState.IsValid)
