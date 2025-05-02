@@ -82,7 +82,7 @@ namespace Internship.Controllers
         }
 
         // POST: AssetCategory/Delete/5
-        [HttpPost("Delete/{CatID}")]// ActionName("Delete")]
+        [HttpDelete("Delete/{CatID}")]// ActionName("Delete")]
         //[ValidateAntiForgeryToken] only for MVC views not API Views
         public IActionResult DeleteConfirmed(int CatID)
         {
@@ -91,6 +91,7 @@ namespace Internship.Controllers
         }
 
         // GET: AssetCategory/Edit/5
+        [HttpGet("Edit/{CatID}")]
         public IActionResult Edit(int CatID)
         {
             var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
@@ -104,8 +105,8 @@ namespace Internship.Controllers
         }
 
         // POST: AssetCategory/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPut("Edit/{CatID}")]
+        //[ValidateAntiForgeryToken]
         public IActionResult Edit(AssetCategory assetCategory)
         {
             if (ModelState.IsValid)
