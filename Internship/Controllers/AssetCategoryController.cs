@@ -54,7 +54,7 @@ namespace Internship.Controllers
             return Ok(assetCategory); // Return to the form with validation errors if any
         }
 
-        [HttpGet("{CatID}")]
+        [HttpGet("Details/{CatID}")]
         public IActionResult Details(int CatID)
         {
             // Get the asset category  by CatID from the repository
