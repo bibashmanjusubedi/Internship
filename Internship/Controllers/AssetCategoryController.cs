@@ -19,7 +19,8 @@ namespace Internship.Controllers
         }
 
         // Action to display all asset details
-        [HttpGet]
+        [HttpGet("")]
+        [HttpGet("Index")]
         public IActionResult Index()
         {
             // Get all asset details from the repository
