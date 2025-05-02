@@ -68,6 +68,7 @@ namespace Internship.Controllers
         }
 
         // GET: AssetCategory/Delete/5
+        [HttpGet("Delete/{CatID}")]
         public IActionResult Delete(int CatID)
         {
             AssetCategory assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
