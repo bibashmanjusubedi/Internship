@@ -113,19 +113,6 @@ namespace Internship.Controllers
             return Ok(assetCategory);
         }
 
-        // GET: AssetCategory/PatchName/5
-        public IActionResult PatchName(int CatID)
-        {
-            var assetCategory = _assetCategoryRepository.GetAssetCategoryById(CatID);
-
-            if (assetCategory == null)
-            {
-                return NotFound($"No asset category found with CatID {CatID}");
-            }
-
-            return Ok(assetCategory); // Only show/edit the name field
-        }
-
         
 
     }
