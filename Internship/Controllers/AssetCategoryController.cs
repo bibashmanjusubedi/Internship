@@ -19,6 +19,7 @@ namespace Internship.Controllers
         }
 
         // Action to display all asset details
+
         [HttpGet("")]
         [HttpGet("Index")]
         public IActionResult Index()
@@ -33,6 +34,7 @@ namespace Internship.Controllers
         // Other actions like Create, Edit, Delete can be added here
 
         // GET: AssetCategory/Create
+        [HttpGet("Create")]
         public IActionResult Create()
         {
             return Ok(new { message = "This would be your create form data" });
