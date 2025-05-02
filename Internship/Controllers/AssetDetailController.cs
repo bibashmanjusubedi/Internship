@@ -7,6 +7,8 @@ namespace Internship.Controllers
 {
 
     [Authorize(Roles = "Admin")]
+    [Route("api/[controller]")]
+    [ApiController]
     public class AssetDetailController : Controller
     {
         private readonly AssetDetailRepository _assetDetailRepository;
@@ -18,26 +20,29 @@ namespace Internship.Controllers
         }
 
         // Action to display all asset details
+        [HttpGet("")]
+        [HttpGet("Index")]
         public IActionResult Index()
         {
             // Get all asset details from the repository
             List<AssetDetail> assetDetails = _assetDetailRepository.GetAllAssetDetails();
 
             // Pass the asset details to the view
-            return View(assetDetails);
+            return Ok(assetDetails);
         }
 
         // Other actions like Create, Edit, Delete can be added here
 
         // GET: AssetDetail/Create
+        [HttpGet("Create")]
         public IActionResult Create()
         {
-            return View();
+            return Ok();
         }
 
         // POST: AssetDetail/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Create")]
+        // [ValidateAntiForgeryToken] only for MVC
         public IActionResult Create(AssetDetail assetDetail)
         {
             if (ModelState.IsValid)
@@ -46,10 +51,11 @@ namespace Internship.Controllers
                 return RedirectToAction(nameof(Index)); // Redirect to the list after creation
             }
 
-            return View(assetDetail); // Return to the form with validation errors if any
+            return Ok(assetDetail); // Return to the form with validation errors if any
         }
 
         //Get : AssetDetails/Details
+        [HttpGet("Details/{Sn}")]
         public IActionResult Details(int Sn)
         {
             // Get the asset by AssetId from the repository
@@ -59,10 +65,11 @@ namespace Internship.Controllers
             {
                 return NotFound($"No Asset Detail found with Sn {Sn}");
             }
-            return View(assetDetail);
+            return Ok(assetDetail);
         }
 
         // GET: AssetDetail/Delete/5
+        [HttpGet("Delete/{Sn}")]
         public IActionResult Delete(int Sn)
         {
             AssetDetail assetDetail = _assetDetailRepository.GetAssetDetailById(Sn);
@@ -76,8 +83,8 @@ namespace Internship.Controllers
         }
 
         // POST: AssetDetail/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[HttpPost, ActionName("Delete")]
+        [HttpDelete("Delete/{Sn}")]
         public IActionResult DeleteConfirmed(int Sn)
         {
             _assetDetailRepository.DeleteAssetDetail(Sn);
@@ -85,6 +92,7 @@ namespace Internship.Controllers
         }
 
         // GET: AssetDetail/Edit/5
+        [HttpGet("Edit/{Sn}")]
         public IActionResult Edit(int Sn)
         {
             AssetDetail assetDetail = _assetDetailRepository.GetAssetDetailById(Sn);
@@ -97,8 +105,7 @@ namespace Internship.Controllers
         }
 
         // POST: AssetDetail/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPut["Edit/{Sn}"]
         public IActionResult Edit(int Sn, AssetDetail assetDetail)
         {
             if (Sn != assetDetail.Sn)

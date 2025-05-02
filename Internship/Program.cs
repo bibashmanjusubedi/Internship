@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
+builder.Services.AddControllersWithViews();//for View Based MVC Controller
+//builder.Services.AddControllers(); // for APi Controller which we will use for ReactJS Applications
 
 builder.Services.AddAuthentication(options =>
 {
