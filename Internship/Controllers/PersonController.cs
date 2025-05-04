@@ -6,7 +6,7 @@ namespace Internship.Controllers
 {
 
     [Authorize(Roles = "Admin")]
-    public class PersonController : Controller
+    public class PersonController : ControllerBase
     {
 
         private readonly PersonRepository _personRepository;
@@ -16,21 +16,24 @@ namespace Internship.Controllers
         {
             _personRepository = new PersonRepository();
         }
+
+        [HttpGet("")]
+        [HttpGet("Index")]
         public IActionResult Index()
         {
             List<Person> persons = _personRepository.GetAllPersons();
-            return View(persons);
+            return Ok(persons);
         }
 
         // GET: Asset/Person
+        [HttpGet("Create")]
         public IActionResult Create()
         {
-            return View();
+            return Ok();
         }
 
         // POST: Person/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Create")]
         public IActionResult Create(Person person)
         {
             if (ModelState.IsValid)
@@ -39,9 +42,10 @@ namespace Internship.Controllers
                 return RedirectToAction(nameof(Index)); // Redirect to the list after creation
             }
 
-            return View(person); // Return to the form with validation errors if any
+            return Ok(person); // Return to the form with validation errors if any
         }
 
+        [HttpGet("Details/{PId}")]
         public IActionResult Details(int PId)
         {
             // Get the asset by AssetId from the repository
@@ -51,10 +55,11 @@ namespace Internship.Controllers
             {
                 return NotFound($"No asset category found with person ID {PId}");
             }
-            return View(person);
+            return Ok(person);
         }
 
         // GET: Person/Delete/5
+        [HttpGet("Delete/{PId}")]
         public IActionResult Delete(int PId)
         {
             var person = _personRepository.GetPersonById(PId);
@@ -62,12 +67,11 @@ namespace Internship.Controllers
             {
                 return NotFound($"No person found with ID {PId}");
             }
-            return View(person); // Show confirmation view
+            return Ok(person); // Show confirmation view
         }
 
         // POST: Person/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpDelete("Delete/{PId}")]
         public IActionResult DeleteConfirmed(int PId)
         {
             _personRepository.DeletePerson(PId);
@@ -76,6 +80,7 @@ namespace Internship.Controllers
 
 
         // GET: Person/Edit/5
+        [HttpGet("Edit/{PId}")]
         public IActionResult Edit(int PId)
         {
             var person = _personRepository.GetPersonById(PId);
@@ -83,12 +88,11 @@ namespace Internship.Controllers
             {
                 return NotFound($"No person found with ID {PId}");
             }
-            return View(person); // Show the edit form with current data
+            return Ok(person); // Show the edit form with current data
         }
 
         // POST: Person/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPut("Edit/{PId}")]
         public IActionResult Edit(Person person)
         {
             if (ModelState.IsValid)
@@ -97,7 +101,7 @@ namespace Internship.Controllers
                 return RedirectToAction(nameof(Index)); // Redirect to the list after update
             }
 
-            return View(person); // Return to the form with validation errors
+            return Ok(person); // Return to the form with validation errors
         }
 
 

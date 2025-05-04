@@ -7,7 +7,9 @@ namespace Internship.Controllers
 {
 
     [Authorize(Roles = "Admin")]
-    public class AssetOutController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AssetOutController : ControllerBase
     {
         private readonly AssetOutRepository _assetOutRepository;
 
@@ -19,20 +21,20 @@ namespace Internship.Controllers
         public IActionResult Index()
         {
             List<AssetOut> assetouts = _assetOutRepository.GetAllAssetOuts();
-            return View(assetouts);
+            return Ok(assetouts);
         }
 
         // Other actions like Create, Edit, Delete can be added here
 
         // GET: AssetOut/Create
+        [HttpGet("Create")]
         public IActionResult Create()
         {
-            return View();
+            return Ok();
         }
 
         // POST: AssetOut/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Create")]
         public IActionResult Create(AssetOut assetOut)
         {
             if (ModelState.IsValid)
@@ -41,9 +43,10 @@ namespace Internship.Controllers
                 return RedirectToAction(nameof(Index)); // Redirect to the list after creation
             }
 
-            return View(assetOut); // Return to the form with validation errors if any
+            return Ok(assetOut); // Return to the form with validation errors if any
         }
 
+        [HttpGet("Details/{Sn}")]
         public IActionResult Details(int Sn)
         {
             // Get the asset by AssetId from the repository
@@ -53,10 +56,11 @@ namespace Internship.Controllers
             {
                 return NotFound($"No Asset Out Detail found with Sn {Sn}");
             }
-            return View(assetOut);
+            return Ok(assetOut);
         }
 
         // GET: AssetOut/Delete/5
+        [HttpGet("Delete/{Sn}")]
         public IActionResult Delete(int Sn)
         {
             AssetOut assetOut = _assetOutRepository.GetAssetOutById(Sn);
@@ -64,12 +68,11 @@ namespace Internship.Controllers
             {
                 return NotFound($"No Asset Out found with Sn {Sn}");
             }
-            return View(assetOut);
+            return Ok(assetOut);
         }
 
         // POST: AssetOut/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpDelete("Delete/{Sn}")]
         public IActionResult DeleteConfirmed(int Sn)
         {
             _assetOutRepository.DeleteAssetOut(Sn);
@@ -83,12 +86,11 @@ namespace Internship.Controllers
             {
                 return NotFound($"No asset out record found with SN {Sn}");
             }
-            return View(assetOut); // Pass data to edit form
+            return Ok(assetOut); // Pass data to edit form
         }
 
         // POST: AssetOut/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPut("Edit/{Sn}")]
         public IActionResult Edit(AssetOut assetOut)
         {
             if (ModelState.IsValid)
@@ -97,7 +99,7 @@ namespace Internship.Controllers
                 return RedirectToAction(nameof(Index)); // After update
             }
 
-            return View(assetOut); // Return form if validation fails
+            return Ok(assetOut); // Return form if validation fails
         }
 
     }

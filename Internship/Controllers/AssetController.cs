@@ -9,7 +9,7 @@ namespace Internship.Controllers
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AssetController: Controller
+    public class AssetController: ControllerBase
     {
         private readonly AssetRepository _assetRepository;
         
@@ -72,7 +72,7 @@ namespace Internship.Controllers
                 return NotFound($"No asset found with AssetId {AssetId}");
             }
 
-            return View(asset); // Shows confirmation page
+            return Ok(asset); // Shows confirmation page
         }
 
         [HttpDelete("Delete/{AssetId}")]
@@ -90,7 +90,7 @@ namespace Internship.Controllers
             {
                 return NotFound();
             }
-            return View(asset);
+            return Ok(asset);
         }
 
         [HttpPut("Edit/{AssetId}")]
@@ -101,7 +101,7 @@ namespace Internship.Controllers
                 _assetRepository.UpdateAsset(asset);
                 return RedirectToAction(nameof(Index));
             }
-            return View(asset);
+            return Ok(asset);
         }
 
 

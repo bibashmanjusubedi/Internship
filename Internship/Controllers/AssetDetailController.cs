@@ -9,7 +9,7 @@ namespace Internship.Controllers
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AssetDetailController : Controller
+    public class AssetDetailController : ControllerBase
     {
         private readonly AssetDetailRepository _assetDetailRepository;
 
@@ -79,7 +79,7 @@ namespace Internship.Controllers
                 return NotFound($"No Asset Detail found with Sn {Sn}");
             }
 
-            return View(assetDetail);
+            return Ok(assetDetail);
         }
 
         // POST: AssetDetail/Delete/5
@@ -101,11 +101,11 @@ namespace Internship.Controllers
                 return NotFound($"No Asset Detail found with Sn {Sn}");
             }
 
-            return View(assetDetail);
+            return Ok(assetDetail);
         }
 
         // POST: AssetDetail/Edit/5
-        [HttpPut["Edit/{Sn}"]
+        [HttpPut("Edit/{Sn}")]
         public IActionResult Edit(int Sn, AssetDetail assetDetail)
         {
             if (Sn != assetDetail.Sn)
@@ -119,7 +119,7 @@ namespace Internship.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(assetDetail); // Return form with validation errors
+            return Ok(assetDetail); // Return form with validation errors
         }
 
 
