@@ -137,12 +137,49 @@ namespace Internship.DAL.Repositories
             }
         }
 
+        public bool RegisterPerson(Person person)
+        {
+            if(IsLoginIdExists(person.LoginID)
+            {
+                return false;// Registration - LoginID already exists
+            }
+
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                try
+                {
+                    // SQL insert query registration
+                    string query = @"INSERT INTO PERSON (Name,Address,Phone, LoginID,Password,LoginStatus,Remarks) VALUES (@Name,@Address,@Phone,@LoginID,@Password,@LoginStatus,@Remarks)";
+                    SqlCommand = new SqlCommand(query, connection);
+                    // Note: Removed PId parameter since it appears to be incremented in DB
+                    command.Parameters.AddWithValue("@Name", person.Name ?? (object)DBNull.value);
+                    command.Parameters.AddWithValue("@Address", person.Address ?? (object)DBNull.value);
+                    command.Parameters.AddWithValue("@Phone", person.Phone ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@LoginID", person.LoginID);
 
 
+                    connection.Open();
+                    int rowsAffected = Command.ExecuteNonQuery();
+                    return (rowsAffected > 0);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
 
-
-
-
-
+        public bool IsLoginIdExists(int loginID)
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "SELECT COUNT(1) FROM PERSON Where LoginID = @LoginID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@LoginID", loginId);
+                connection.Open();
+                int count = (int)command.ExecuteScalar();
+                return (count > 0);
+            }
+        }
+        
     }
-}

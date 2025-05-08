@@ -74,6 +74,41 @@ namespace Internship.Controllers
         }
 
 
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegisterRequest request)
+        {
+            // Basic validation
+            if (request == null || string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Password))
+                return BadRequest("Name and Password are required.");
+
+            // Check if LoginID already exists
+            if (_personRepository.GetAllPersons().Any(p => p.LoginID == request.LoginID))
+                return Conflict("A user with this LoginID already exists.");
+
+            // Map RegisterRequest to Person entity
+            var newPerson = new Person
+            {
+                Name = request.Name,
+                Address = request.Address,
+                Phone = request.Phone,
+                LoginID = request.LoginID,
+                Password = request.Password,
+                LoginStatus = true,
+                Remarks = request.Remarks
+            };
+
+            try
+            {
+                _personRepository.CreatePerson(newPerson);
+                return Ok(new { message = "Registration successful" });
+            }
+            catch
+            {
+                return StatusCode(500, "Registration failed due to a server error.");
+            }
+        }
+
+
         [HttpPost("logout")]
         public IActionResult Logout()
         {
