@@ -18,11 +18,13 @@ namespace Internship.Controllers
     {
         private readonly JwtSettings _jwtSettings;
         private readonly AuthRepository _authRepo;
+        private readonly PersonRepository _personRepository;
 
-        public AuthController(IOptions<JwtSettings> jwtSettings)
+        public AuthController(IOptions<JwtSettings> jwtSettings, PersonRepository personRepository)
         {
             _jwtSettings = jwtSettings.Value;
             _authRepo = new AuthRepository();
+            _personRepository = personRepository;
         }
 
         [HttpPost("login")]
@@ -82,7 +84,7 @@ namespace Internship.Controllers
                 return BadRequest("Name and Password are required.");
 
             // Check if LoginID already exists
-            if (_personRepository.GetAllPersons().Any(p => p.LoginID == request.LoginID))
+            if (_personRepository.GetAllPersons().Any(p => p.LoginID == request.LoginID))//line 85
                 return Conflict("A user with this LoginID already exists.");
 
             // Map RegisterRequest to Person entity
@@ -99,7 +101,7 @@ namespace Internship.Controllers
 
             try
             {
-                _personRepository.CreatePerson(newPerson);
+                _personRepository.CreatePerson(newPerson);//line 102
                 return Ok(new { message = "Registration successful" });
             }
             catch
