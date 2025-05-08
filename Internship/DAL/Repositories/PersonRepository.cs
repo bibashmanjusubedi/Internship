@@ -139,7 +139,7 @@ namespace Internship.DAL.Repositories
 
         public bool RegisterPerson(Person person)
         {
-            if(IsLoginIdExists(person.LoginID)
+            if(IsLoginIdExists(person.LoginID))
             {
                 return false;// Registration - LoginID already exists
             }
@@ -150,10 +150,10 @@ namespace Internship.DAL.Repositories
                 {
                     // SQL insert query registration
                     string query = @"INSERT INTO PERSON (Name,Address,Phone, LoginID,Password,LoginStatus,Remarks) VALUES (@Name,@Address,@Phone,@LoginID,@Password,@LoginStatus,@Remarks)";
-                    SqlCommand = new SqlCommand(query, connection);
+                    SqlCommand command = new SqlCommand(query, connection);
                     // Note: Removed PId parameter since it appears to be incremented in DB
-                    command.Parameters.AddWithValue("@Name", person.Name ?? (object)DBNull.value);
-                    command.Parameters.AddWithValue("@Address", person.Address ?? (object)DBNull.value);
+                    command.Parameters.AddWithValue("@Name", person.Name ?? (object)DBNull.Value);//line 155
+                    command.Parameters.AddWithValue("@Address", person.Address ?? (object)DBNull.Value);//line 156
                     command.Parameters.AddWithValue("@Phone", person.Phone ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@LoginID", person.LoginID);
 
