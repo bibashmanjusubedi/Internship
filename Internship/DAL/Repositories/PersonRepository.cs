@@ -22,12 +22,12 @@ namespace Internship.DAL.Repositories
                     // Create a new AssetDetail object and map values from the SQL result
                     var person = new Person
                     {
-                        PId = (int)reader["PId"], 
+                        PId = (int)reader["PId"],
                         Name = reader["Name"]?.ToString(),
                         Address = reader["Address"]?.ToString(),
                         Phone = reader["Phone"]?.ToString(),
                         LoginID = (int)reader["LoginID"],
-                        LoginStatus = reader["LoginStatus"] != DBNull.Value? bool.Parse(reader["LoginStatus"].ToString()): false,//line 30
+                        LoginStatus = reader["LoginStatus"] != DBNull.Value ? bool.Parse(reader["LoginStatus"].ToString()) : false,//line 30
                         Password = reader["Password"]?.ToString(),
                         Remarks = reader["remarks"]?.ToString()
                     };
@@ -56,7 +56,7 @@ namespace Internship.DAL.Repositories
                 command.Parameters.AddWithValue("@LoginID", person.LoginID);
                 command.Parameters.AddWithValue("@LoginStatus", person.LoginStatus);
                 command.Parameters.AddWithValue("@Password", person.Password);
-                command.Parameters.AddWithValue("@Remarks",person.Remarks);
+                command.Parameters.AddWithValue("@Remarks", person.Remarks);
 
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -139,7 +139,7 @@ namespace Internship.DAL.Repositories
 
         public bool RegisterPerson(Person person)
         {
-            if(IsLoginIdExists(person.LoginID))
+            if (IsLoginIdExists(person.LoginID))
             {
                 return false;// Registration - LoginID already exists
             }
@@ -159,7 +159,7 @@ namespace Internship.DAL.Repositories
 
 
                     connection.Open();
-                    int rowsAffected = Command.ExecuteNonQuery();
+                    int rowsAffected = command.ExecuteNonQuery();
                     return (rowsAffected > 0);
                 }
                 catch
@@ -175,11 +175,12 @@ namespace Internship.DAL.Repositories
             {
                 string query = "SELECT COUNT(1) FROM PERSON Where LoginID = @LoginID";
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@LoginID", loginId);
+                command.Parameters.AddWithValue("@LoginID", loginID);//line 178
                 connection.Open();
                 int count = (int)command.ExecuteScalar();
                 return (count > 0);
             }
         }
-        
+
     }
+}
