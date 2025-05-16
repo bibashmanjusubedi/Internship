@@ -18,6 +18,9 @@ namespace Internship.Controllers
         {
             _assetOutRepository = new AssetOutRepository();
         }
+        
+        [HttpGet("")]
+        [HttpGet("Index")]
         public IActionResult Index()
         {
             List<AssetOut> assetouts = _assetOutRepository.GetAllAssetOuts();
@@ -78,7 +81,8 @@ namespace Internship.Controllers
             _assetOutRepository.DeleteAssetOut(Sn);
             return RedirectToAction(nameof(Index));
         }
-
+        
+        [HttpGet("Edit/{Sn}")]
         public IActionResult Edit(int Sn)
         {
             var assetOut = _assetOutRepository.GetAssetOutById(Sn);
