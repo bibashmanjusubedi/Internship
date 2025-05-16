@@ -39,10 +39,10 @@ namespace Internship.DAL.Repositories
             using(var connection = DatabaseHelper.GetConnection())
             {
                 // SQL insert query to add a new record to the AssetDetail table
-                string query = @"INSERT INTO AssetCategory (CatID,CatName) VALUES (@CatID,@CatName)";
+                string query = @"INSERT INTO AssetCategory (CatName) VALUES (@CatName)";
                 SqlCommand command = new SqlCommand(query,connection);
 
-                command.Parameters.AddWithValue("@CatID",assetCategory.CatID);
+       
                 command.Parameters.AddWithValue("@CatName", assetCategory.CatName);
 
 
