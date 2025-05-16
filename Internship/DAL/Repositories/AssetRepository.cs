@@ -42,10 +42,11 @@ namespace Internship.DAL.Repositories
             using(var connection = DatabaseHelper.GetConnection())
             {
                 // SQL insert query to add a new record to the AssetDetail table
-                string query = @"INSERT INTO Asset (AssetId,Name,ShortName,Description,Unit,CatID) VALUES (@AssetId,@Name,@ShortName,@Description,@Unit,@CatID)";
+                string query = @"INSERT INTO Asset (Name, ShortName, Description, Unit, CatID) 
+                         VALUES (@Name, @ShortName, @Description, @Unit, @CatID)";
                 SqlCommand command = new SqlCommand(query,connection);
 
-                command.Parameters.AddWithValue("@AssetId",asset.AssetId);
+                // command.Parameters.AddWithValue("@AssetId",asset.AssetId);
                 command.Parameters.AddWithValue("@Name", asset.Name);
                 command.Parameters.AddWithValue("@ShortName", asset.ShortName);
                 command.Parameters.AddWithValue("@Description", asset.Description);
