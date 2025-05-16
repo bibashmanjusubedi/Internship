@@ -48,13 +48,13 @@ namespace Internship.DAL.Repositories
             using (var connection = DatabaseHelper.GetConnection())
             {
                 // SQL insert query to add a new record to the AssetDetail table
-                string query = @"INSERT INTO AssetDetail (Sn, AssetId, AssetCode, Price, PurchaseDate, Remark, Status)
-                                 VALUES (@Sn,@AssetId, @AssetCode, @Price, @PurchaseDate, @Remark, @Status)";
+                string query = @"INSERT INTO AssetDetail (AssetId, AssetCode, Price, PurchaseDate, Remark, Status)
+                                 VALUES (@AssetId, @AssetCode, @Price, @PurchaseDate, @Remark, @Status)";
 
                 SqlCommand command = new SqlCommand(query, connection);
 
                 // Add parameters to the SQL command to prevent SQL injection
-                command.Parameters.AddWithValue("@Sn", assetDetail.Sn);
+                //command.Parameters.AddWithValue("@Sn", assetDetail.Sn);
                 command.Parameters.AddWithValue("@AssetId", assetDetail.AssetId);
                 command.Parameters.AddWithValue("@AssetCode", assetDetail.AssetCode);
                 command.Parameters.AddWithValue("@Price", assetDetail.Price);
