@@ -8,6 +8,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        policy =>
+        {
+            policy.WithOrigins(
+                "http://bibashacharya-001-site.anytempurl.com",
+                "https://bibashacharya-001-site1.anytempurl.com",
+                "https://localhost:7252",
+                "http://localhost:5091"
+            )
+
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+        });
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();//for View Based MVC Controller
 //builder.Services.AddControllers(); // for APi Controller which we will use for ReactJS Applications
@@ -60,6 +78,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseCors("AllowSpecificOrigins");
 
 app.UseRouting();
 
