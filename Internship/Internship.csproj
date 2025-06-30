@@ -6,6 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+
+    <PropertyGroup>
+	    <PublishIISAssets>true</PublishIISAssets>
+    </PropertyGroup>
+
+    <Target Name="GenerateWebConfig" AfterTargets="Publish">
+	    <WriteLinesToFile File="$(PublishDir)web.config" Lines="" Overwrite="true" />
+    </Target>
+
   <ItemGroup>
     <Compile Remove="DAL\NewFolder\**" />
     <Content Remove="DAL\NewFolder\**" />
@@ -20,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
   </ItemGroup>

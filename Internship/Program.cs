@@ -1,93 +1,131 @@
+using Internship.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
-using Internship.Models;
-using Internship.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container
+builder.Services.AddControllers();
+
+// Configure Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>//line 14
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Internship API", Version = "v1" });
+
+    // Configure Swagger to accept JWT tokens
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+// Configure JWT Settings
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
+// Configure CORS for Blazor client
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigins",
-        policy =>
-        {
-            policy.WithOrigins(
-                "http://bibashacharya-001-site.anytempurl.com",
-                "https://bibashacharya-001-site1.anytempurl.com",
-                "https://localhost:7252",
-                "http://localhost:5091"
+    options.AddPolicy("BlazorClient", policy =>
+    {
+        policy.WithOrigins(
+                "https://localhost:7263",    // Blazor HTTPS
+                "http://localhost:5291",     // Blazor HTTP
+                "https://bibashacharya-001-site1.anytempurl.com" // Production
             )
-
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials();
-        });
+            .AllowCredentials()
+            .SetPreflightMaxAge(TimeSpan.FromSeconds(86400));
+    });
 });
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();//for View Based MVC Controller
-//builder.Services.AddControllers(); // for APi Controller which we will use for ReactJS Applications
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
-    options.TokenValidationParameters = new TokenValidationParameters
+// Configure JWT Authentication
+var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings.Issuer,
-        ValidAudience = jwtSettings.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
-    };
-    options.Events = new JwtBearerEvents
-    {
-        OnMessageReceived = context =>
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            // Read token from the cookie
-            context.Token = context.Request.Cookies["jwt_token"];
-            return Task.CompletedTask;
-        }
-    };
-});
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings.Issuer,
+            ValidAudience = jwtSettings.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                // Accept token from either cookie or header
+                context.Token = context.Request.Cookies["jwt_token"] ??
+                               context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                return Task.CompletedTask;
+            },
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception}");
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddScoped<PersonRepository>();
-
-builder.Logging.ClearProviders(); 
-builder.Logging.AddConsole();    
-builder.Logging.AddDebug();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Configure the HTTP pipeline
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Internship API v1");
+        c.OAuthClientId("swagger-ui");
+        c.OAuthAppName("Swagger UI");
+    });
+    // app.UseHttpsRedirection(); // Optional during development
+}
+else
+{
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-app.UseCors("AllowSpecificOrigins");
-
 app.UseRouting();
 
+// IMPORTANT: Middleware order matters
+app.UseCors("BlazorClient");
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllers();
 
 app.Run();
-// a small comment
