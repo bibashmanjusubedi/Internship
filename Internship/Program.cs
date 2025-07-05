@@ -1,3 +1,4 @@
+using Internship.DAL.Repositories;
 using Internship.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -95,6 +96,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<PersonRepository>();
 
 var app = builder.Build();
 
