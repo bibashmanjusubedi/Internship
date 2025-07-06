@@ -51,9 +51,6 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigins", policy =>
     {
         policy.WithOrigins(
-                "https://localhost:7263",    // Blazor HTTPS
-                "http://localhost:5291",     // Blazor HTTP
-                "https://bibashacharya-001-site1.anytempurl.com", // Production
                 "http://localhost:3000" // React HTTP
              )
             .AllowAnyMethod()

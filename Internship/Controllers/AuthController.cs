@@ -32,6 +32,8 @@ namespace Internship.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
+            //Console.WriteLine("{request.Name} {request.Password}");
+            _logger.LogInformation("Login attempt for {Name} and {password}", request.Name,request.Password);
             if (request == null || string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Password))
             {
                 return BadRequest("Name and Password are required.");
