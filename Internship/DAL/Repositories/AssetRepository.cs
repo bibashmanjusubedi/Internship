@@ -2,6 +2,8 @@
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using Internship.DAL;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace Internship.DAL.Repositories
@@ -16,7 +18,7 @@ namespace Internship.DAL.Repositories
                 string query = "SELECT * FROM Asset";
                 SqlCommand command = new SqlCommand(query,connection);
                 connection.Open();
-                SqlDataReader reader= command.ExecuteReader();
+                SqlDataReader reader = command.ExecuteReader();
 
                 while(reader.Read())
                 {
@@ -35,6 +37,20 @@ namespace Internship.DAL.Repositories
                
             }
             return assets;
+        }
+
+        public async Task<int> GetAssetCountAsync()
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                string query = "SELECT COUNT(*) FROM Asset";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                connection.Open();
+                // ExecuteScalar returns the first column of the first row
+                var count = (int)await command.ExecuteScalarAsync();
+                return count;
+            }
         }
 
         public void CreateAsset(Asset asset)

@@ -1,9 +1,12 @@
+using Internship.DAL;
 using Internship.DAL.Repositories;
 using Internship.Models;
+using Internship.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,7 +98,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddScoped<DatabaseHelper>();
+builder.Services.AddScoped<AssetRepository>();
+
 builder.Services.AddScoped<PersonRepository>();
+
+// Program.cs
+builder.Services.AddScoped<AssetService>();
 
 var app = builder.Build();
 

@@ -28,6 +28,12 @@ namespace Internship.Controllers
             return Ok(assets);
         }
 
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> GetCount()
+        {
+            return await _assetRepository.GetAssetCountAsync();
+        }
+
         [HttpGet("Create")]
         public IActionResult Create()
         {
