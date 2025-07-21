@@ -50,7 +50,7 @@ namespace Internship.Controllers
                     Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes)
                 });
 
-                return Ok(new { message = "Login successful" });
+                return Ok(new { token, message = "Login successful" });
             }
 
             return Unauthorized("Invalid credentials");

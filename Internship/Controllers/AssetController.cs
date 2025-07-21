@@ -85,7 +85,7 @@ namespace Internship.Controllers
         public IActionResult DeleteConfirmed(int AssetId)
         {
             _assetRepository.DeleteAsset(AssetId);
-            return RedirectToAction(nameof(Index));
+            return NoContent();
         }
 
         [HttpGet("Edit/{AssetId}")]
