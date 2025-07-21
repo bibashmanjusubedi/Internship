@@ -105,7 +105,7 @@ namespace Internship.Controllers
             if (ModelState.IsValid)
             {
                 _assetRepository.UpdateAsset(asset);
-                return RedirectToAction(nameof(Index));
+                return Ok(new { message = "Asset updated successfully." });
             }
             return Ok(asset);
         }
