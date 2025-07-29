@@ -112,7 +112,7 @@ namespace Internship.Controllers
             if (ModelState.IsValid)
             {
                 _assetCategoryRepository.UpdateAssetCategory(assetCategory);
-                return RedirectToAction(nameof(Index));
+                return Ok(assetCategory);
             }
 
             return Ok(assetCategory);
