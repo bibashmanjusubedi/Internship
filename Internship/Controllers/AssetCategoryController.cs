@@ -87,7 +87,7 @@ namespace Internship.Controllers
         public IActionResult DeleteConfirmed(int CatID)
         {
             _assetCategoryRepository.DeleteAssetCategory(CatID);
-            return RedirectToAction(nameof(Index));
+            return NoContent();
         }
 
         // GET: AssetCategory/Edit/5
