@@ -116,7 +116,7 @@ namespace Internship.Controllers
             if (ModelState.IsValid)
             {
                 _assetDetailRepository.UpdateAssetDetail(assetDetail); // This is the PUT-style update you added earlier
-                return RedirectToAction(nameof(Index));
+                return Ok(assetDetail);
             }
 
             return Ok(assetDetail); // Return form with validation errors
