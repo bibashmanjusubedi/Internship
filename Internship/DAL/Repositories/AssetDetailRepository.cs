@@ -6,38 +6,74 @@ namespace Internship.DAL.Repositories
 {
     public class AssetDetailRepository
     {
+        //public List<AssetDetail> GetAllAssetDetails()
+        //{
+        //    List<AssetDetail> assetDetails = new List<AssetDetail>();
+
+        //    using (var connection = DatabaseHelper.GetConnection())
+        //    {
+        //        string query = "SELECT AD.*,A.Name AS AssetName FROM AssetDetail AD JOIN Asset A ON AD.AssetId = A.AssetId;";
+        //        SqlCommand command = new SqlCommand(query, connection);
+        //        connection.Open();
+        //        SqlDataReader reader = command.ExecuteReader();
+
+        //        while (reader.Read())
+        //        {
+        //            // Create a new AssetDetail object and map values from the SQL result
+        //            var assetDetail = new AssetDetail
+        //            {
+        //                Sn = (int)reader["Sn"], // Sn is the primary key
+        //                AssetId = (int)reader["AssetId"], // AssetId (foreign key)
+        //                AssetCode = (int)reader["AssetCode"], // AssetCode
+        //                Price = reader["Price"] != DBNull.Value ? (int)reader["Price"] : 0, // Price (check for null values)
+        //                PurchaseDate = reader["PurchaseDate"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["PurchaseDate"])): default,
+        //                Remark = reader["Remark"]?.ToString(), // Handle string fields
+        //                Status = reader["Status"]?.ToString(), // Handle string fields
+        //                AssetName = reader["AssetName"]?.ToString() // Assuming you want to include the Asset Name from the join
+        //            };
+
+        //            assetDetails.Add(assetDetail);
+        //        }
+        //    }
+
+
+        //return assetDetails;
+        //}
+
         public List<AssetDetail> GetAllAssetDetails()
         {
             List<AssetDetail> assetDetails = new List<AssetDetail>();
 
             using (var connection = DatabaseHelper.GetConnection())
             {
-                string query = "SELECT * FROM AssetDetail";
+                string query = "SELECT AD.*, A.Name AS AssetName FROM AssetDetail AD JOIN Asset A ON AD.AssetId = A.AssetId;";
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    // Create a new AssetDetail object and map values from the SQL result
                     var assetDetail = new AssetDetail
                     {
-                        Sn = (int)reader["Sn"], // Sn is the primary key
-                        AssetId = (int)reader["AssetId"], // AssetId (foreign key)
-                        AssetCode = (int)reader["AssetCode"], // AssetCode
-                        Price = reader["Price"] != DBNull.Value ? (int)reader["Price"] : 0, // Price (check for null values)
-                        PurchaseDate = reader["PurchaseDate"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["PurchaseDate"])): default,
-                        Remark = reader["Remark"]?.ToString(), // Handle string fields
-                        Status = reader["Status"]?.ToString() // Handle string fields
+                        Sn = (int)reader["Sn"],
+                        AssetId = (int)reader["AssetId"],
+                        AssetCode = (int)reader["AssetCode"],
+                        Price = reader["Price"] != DBNull.Value ? (int)reader["Price"] : 0,
+                        PurchaseDate = reader["PurchaseDate"] != DBNull.Value
+                                       ? DateOnly.FromDateTime(Convert.ToDateTime(reader["PurchaseDate"]))
+                                       : default,
+                        Remark = reader["Remark"]?.ToString(),
+                        Status = reader["Status"]?.ToString(),
+                        Name = reader["AssetName"]?.ToString() // This is the asset name from the join
                     };
 
                     assetDetails.Add(assetDetail);
                 }
             }
-            
 
             return assetDetails;
         }
+
 
         // Other CRUD methods like Create, Update, Delete
 

@@ -18,6 +18,6 @@ namespace Internship.Models
         public string Remark { get; set; }
         [StringLength(255)]
         public string Status { get; set; }
-
+        public string? Name { get; internal set; }
     }
 }
