@@ -13,7 +13,7 @@ namespace Internship.DAL.Repositories
 
             using (var connection = DatabaseHelper.GetConnection())
             {
-                string query = "SELECT * FROM AssetOut";
+                string query = "SELECT ao.*,p.Name as PersonName FROM AssetOut ao INNER JOIN Person p ON ao.PId = p.PId";
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -30,6 +30,7 @@ namespace Internship.DAL.Repositories
                         DateToReturn = reader["DateToReturn"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["DateToReturn"])) : default,
                         ReturnDate = reader["ReturnDate"] != DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(reader["ReturnDate"])) : default,
                         Remarks = reader["Remarks"]?.ToString(), // Handle string field
+                        PersonName = reader["PersonName"]?.ToString()
                     };
 
                     assetOuts.Add(assetOut);
