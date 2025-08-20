@@ -45,8 +45,39 @@ namespace Internship.DAL.Repositories
         {
             using (var connection = DatabaseHelper.GetConnection())
             {
+
+                connection.Open();
+                int? pid = null;
+                using (var cmd = new SqlCommand("SELECT PId from Person Where Name=@Name", connection))
+                {
+                    cmd.Parameters.AddWithValue("@Name", assetOut.PersonName);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                        pid = Convert.ToInt32(result);
+                }
+                if (pid == null)
+                    throw new Exception($"Person '{assetOut.PersonName}' not found");
+
+
+                int? assetCode = null;
+                using (var cmd = new SqlCommand(@"
+                    SELECT ad.AssetCode
+                    FROM AssetDetail ad
+                    INNER JOIN Asset a ON ad.AssetId = a.AssetId
+                    WHERE a.Name = @Name", connection ))
+                {
+                    cmd.Parameters.AddWithValue("@Name", assetOut.AssetName ?? "");
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                        assetCode = Convert.ToInt32(result);
+                }
+
+                if (assetCode == null)
+                    throw new Exception($"Asset '{assetOut.AssetName}' not found");
+
+
                 // SQL insert query to add a new record to the AssetDetail table
-                string query = @"INSERT INTO AssetOut (AssetCode,OutDate,PId,DateToReturn,ReturnDate) VALUES (@AssetCode,@OutDate,@PId,@DateToReturn,@ReturnDate)";
+                string query = @"INSERT INTO AssetOut (AssetCode,OutDate,PId,DateToReturn,ReturnDate,Remarks) VALUES (@AssetCode,@OutDate,@PId,@DateToReturn,@ReturnDate,@Remarks)";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 //command.Parameters.AddWithValue("@Sn", assetOut.Sn);
@@ -58,7 +89,7 @@ namespace Internship.DAL.Repositories
                 command.Parameters.AddWithValue("@Remarks", assetOut.Remarks);
 
 
-                connection.Open();
+                //connection.Open();
                 command.ExecuteNonQuery();
 
             }

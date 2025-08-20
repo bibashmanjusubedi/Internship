@@ -18,6 +18,10 @@ namespace Internship.Models
         public DateOnly ReturnDate { get; set; }
         public string Remarks { get; set; }
 
-        public string PersonName { get; set; }
+        public string? PersonName { get; set; }
+
+
+        [NotMapped]
+        public string? AssetName { get; set; }
     }
 }
