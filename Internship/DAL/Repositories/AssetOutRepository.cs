@@ -62,8 +62,8 @@ namespace Internship.DAL.Repositories
                 int? assetCode = null;
                 using (var cmd = new SqlCommand(@"
                     SELECT ad.AssetCode
-                    FROM AssetDetail ad
-                    INNER JOIN Asset a ON ad.AssetId = a.AssetId
+                    FROM Asset a
+                    JOIN AssetDetail ad ON a.AssetId = ad.AssetId
                     WHERE a.Name = @Name", connection ))
                 {
                     cmd.Parameters.AddWithValue("@Name", assetOut.AssetName ?? "");
@@ -77,20 +77,19 @@ namespace Internship.DAL.Repositories
 
 
                 // SQL insert query to add a new record to the AssetDetail table
-                string query = @"INSERT INTO AssetOut (AssetCode,OutDate,PId,DateToReturn,ReturnDate,Remarks) VALUES (@AssetCode,@OutDate,@PId,@DateToReturn,@ReturnDate,@Remarks)";
-                SqlCommand command = new SqlCommand(query, connection);
+                string query = @"INSERT INTO AssetOut (AssetCode,OutDate,PId,DateToReturn,ReturnDate,Remarks) 
+                 VALUES (@AssetCode,@OutDate,@PId,@DateToReturn,@ReturnDate,@Remarks)";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@AssetCode", assetCode);
+                    command.Parameters.AddWithValue("@OutDate", assetOut.OutDate);
+                    command.Parameters.AddWithValue("@PId", pid);
+                    command.Parameters.AddWithValue("@DateToReturn", assetOut.DateToReturn);
+                    command.Parameters.AddWithValue("@ReturnDate", assetOut.ReturnDate);
+                    command.Parameters.AddWithValue("@Remarks", assetOut.Remarks);
 
-                //command.Parameters.AddWithValue("@Sn", assetOut.Sn);
-                command.Parameters.AddWithValue("@AssetCode", assetOut.AssetCode);
-                command.Parameters.AddWithValue("@OutDate", assetOut.OutDate);
-                command.Parameters.AddWithValue("@PId", assetOut.PId);
-                command.Parameters.AddWithValue("@DateToReturn", assetOut.DateToReturn);
-                command.Parameters.AddWithValue("@ReturnDate", assetOut.ReturnDate);
-                command.Parameters.AddWithValue("@Remarks", assetOut.Remarks);
-
-
-                //connection.Open();
-                command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
+                }
 
             }
         }
