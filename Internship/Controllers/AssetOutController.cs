@@ -100,7 +100,7 @@ namespace Internship.Controllers
             if (ModelState.IsValid)
             {
                 _assetOutRepository.UpdateAssetOut(assetOut);
-                return RedirectToAction(nameof(Index)); // After update
+                return Ok(assetOut);
             }
 
             return Ok(assetOut); // Return form if validation fails
