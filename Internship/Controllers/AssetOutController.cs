@@ -79,7 +79,7 @@ namespace Internship.Controllers
         public IActionResult DeleteConfirmed(int Sn)
         {
             _assetOutRepository.DeleteAssetOut(Sn);
-            return RedirectToAction(nameof(Index));
+            return NoContent();
         }
         
         [HttpGet("Edit/{Sn}")]
